@@ -20,7 +20,7 @@ const noErrorsState = {
     error: false,
     errorCode: 0,
     errors: {},
-    loading: false
+    loading: false,
 };
 
 /**
@@ -37,11 +37,11 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
         errors: {},
         errorCode: 0,
         loading: false,
-        status: ""
+        status: "",
     };
     const {
         // Function that sort items returned by list.
-        sortItems
+        sortItems,
     } = options;
 
     return (state = initialState, action) => {
@@ -51,12 +51,12 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
             case basicActions.SET_ITEM:
                 return {
                     ...state,
-                    item: payload
+                    item: payload,
                 };
             case basicActions.CLEAR_ITEM:
                 return {
                     ...state,
-                    item: {}
+                    item: {},
                 };
             default:
         }
@@ -70,14 +70,14 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                         item: payload.data || {},
                         args: payload || {},
                         status: "create_request",
-                        loading: true
+                        loading: true,
                     };
                 case actions.CREATE_SUCCESS:
                     return {
                         ...state,
                         ...noErrorsState,
                         item: payload,
-                        status: "success"
+                        status: "create_success",
                     };
                 case actions.CREATE_FAILURE:
                     return {
@@ -86,7 +86,7 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                         errorCode: payload.errorCode,
                         errors: payload.errors,
                         loading: false,
-                        status: "failure"
+                        status: "create_failure",
                     };
                 default:
             }
@@ -99,14 +99,14 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                         ...initialState,
                         args: payload || {},
                         status: "read_request",
-                        loading: true
+                        loading: true,
                     };
                 case actions.READ_SUCCESS:
                     return {
                         ...state,
                         ...noErrorsState,
                         item: payload,
-                        status: "success"
+                        status: "read_success",
                     };
                 case actions.READ_FAILURE:
                     return {
@@ -115,7 +115,7 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                         errorCode: payload.errorCode,
                         errors: payload.errors,
                         loading: false,
-                        status: "failure"
+                        status: "read_failure",
                     };
                 default:
             }
@@ -133,17 +133,17 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                         const item = state.items.get(id);
                         newItem = {
                             ...item,
-                            ...payload.data
+                            ...payload.data,
                         };
                         newItems = update(state.items, {
-                            [id]: { $set: newItem }
+                            [id]: { $set: newItem },
                         });
                     }
                     if (state.item) {
                         // Update current item
                         newItem = {
                             ...state.item,
-                            ...payload.data
+                            ...payload.data,
                         };
                     }
                     return {
@@ -152,7 +152,7 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                         item: newItem || {},
                         items: newItems,
                         loading: true,
-                        status: "update_request"
+                        status: "update_request",
                     };
                 }
                 case actions.UPDATE_SUCCESS:
@@ -160,7 +160,7 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                         ...state,
                         ...noErrorsState,
                         item: action.payload,
-                        status: "success"
+                        status: "update_success",
                     };
                 case actions.UPDATE_FAILURE:
                     return {
@@ -169,7 +169,7 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                         errorCode: payload.errorCode,
                         errors: payload.errors,
                         loading: false,
-                        status: "failure"
+                        status: "update_failure",
                     };
                 default:
             }
@@ -182,14 +182,14 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                         ...state,
                         args: payload || {},
                         loading: true,
-                        status: "list_request"
+                        status: "list_request",
                     };
                 case actions.LIST_SUCCESS:
                     return {
                         ...state,
                         ...noErrorsState,
                         items: sortItems ? sortItems(payload) : byId(payload),
-                        status: "success"
+                        status: "list_success",
                     };
                 case actions.LIST_FAILURE:
                     return {
@@ -198,7 +198,7 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                         errorCode: payload.errorCode,
                         errors: payload.errors,
                         loading: false,
-                        status: "failure"
+                        status: "list_failure",
                     };
                 default:
             }
@@ -211,14 +211,14 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                         ...state,
                         args: payload || {},
                         loading: true,
-                        status: "post_request"
+                        status: "post_request",
                     };
                 case actions.POST_SUCCESS:
                     return {
                         ...state,
                         ...noErrorsState,
                         item: payload || {},
-                        status: "success"
+                        status: "post_success",
                     };
                 case actions.POST_FAILURE:
                     return {
@@ -227,7 +227,7 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                         errorCode: payload.errorCode,
                         errors: payload.errors,
                         loading: false,
-                        status: "failure"
+                        status: "post_failure",
                     };
                 default:
             }
@@ -241,13 +241,13 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                         ...noErrorsState,
                         args: payload || {},
                         status: "delete_request",
-                        loading: true
+                        loading: true,
                     };
                 case actions.DELETE_SUCCESS:
                     return {
                         ...state,
                         ...noErrorsState,
-                        status: "success"
+                        status: "delete_success",
                     };
                 case actions.DELETE_FAILURE:
                     return {
@@ -256,7 +256,7 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                         errorCode: payload.errorCode,
                         errors: payload.errors,
                         loading: false,
-                        status: "failure"
+                        status: "delete_failure",
                     };
                 default:
             }

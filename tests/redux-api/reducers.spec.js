@@ -9,7 +9,7 @@ const defaultState = {
     errors: {},
     errorCode: 0,
     loading: true,
-    status: "create_request"
+    status: "create_request",
 };
 
 describe("Redux api reducer", () => {
@@ -19,14 +19,14 @@ describe("Redux api reducer", () => {
             expect(
                 reducer(defaultState, {
                     type: "MOJO_CREATE_REQUEST",
-                    payload: { data: { me: "me" } }
+                    payload: { data: { me: "me" } },
                 })
             ).toEqual({
                 ...defaultState,
                 args: { data: { me: "me" } },
                 item: { me: "me" },
                 loading: true,
-                status: "create_request"
+                status: "create_request",
             });
         });
 
@@ -36,19 +36,19 @@ describe("Redux api reducer", () => {
                 ...defaultState,
                 args: "me",
                 loading: true,
-                status: "create_request"
+                status: "create_request",
             };
             expect(
                 reducer(initialState, {
                     type: "MOJO_CREATE_SUCCESS",
-                    payload: "created"
+                    payload: "created",
                 })
             ).toEqual({
                 ...defaultState,
                 args: "me",
                 item: "created",
                 loading: false,
-                status: "success"
+                status: "create_success",
             });
         });
 
@@ -58,23 +58,23 @@ describe("Redux api reducer", () => {
                 reducer(
                     {
                         ...defaultState,
-                        loading: true
+                        loading: true,
                     },
                     {
                         type: "MOJO_CREATE_FAILURE",
                         payload: {
                             errorCode: "oops",
-                            errors: "Couldn't create."
-                        }
+                            errors: "Couldn't create.",
+                        },
                     }
                 )
             ).toEqual({
                 ...defaultState,
                 loading: false,
-                status: "failure",
+                status: "create_failure",
                 error: true,
                 errorCode: "oops",
-                errors: "Couldn't create."
+                errors: "Couldn't create.",
             });
         });
     });
@@ -85,13 +85,13 @@ describe("Redux api reducer", () => {
             expect(
                 reducer(defaultState, {
                     type: "MOJO_READ_REQUEST",
-                    payload: "me"
+                    payload: "me",
                 })
             ).toEqual({
                 ...defaultState,
                 args: "me",
                 loading: true,
-                status: "read_request"
+                status: "read_request",
             });
         });
 
@@ -105,21 +105,21 @@ describe("Redux api reducer", () => {
                         errorCode: "1000",
                         errors: "oops",
                         loading: true,
-                        item: "toto"
+                        item: "toto",
                     },
                     {
                         type: "MOJO_READ_SUCCESS",
-                        payload: "item"
+                        payload: "item",
                     }
                 )
             ).toEqual({
                 ...defaultState,
                 item: "item",
                 loading: false,
-                status: "success",
+                status: "read_success",
                 error: false,
                 errors: {},
-                errorCode: 0
+                errorCode: 0,
             });
         });
 
@@ -129,23 +129,23 @@ describe("Redux api reducer", () => {
                 reducer(
                     {
                         ...defaultState,
-                        loading: true
+                        loading: true,
                     },
                     {
                         type: "MOJO_READ_FAILURE",
                         payload: {
                             errorCode: "oops",
-                            errors: "Couldn't read."
-                        }
+                            errors: "Couldn't read.",
+                        },
                     }
                 )
             ).toEqual({
                 ...defaultState,
                 loading: false,
-                status: "failure",
+                status: "read_failure",
                 error: true,
                 errorCode: "oops",
-                errors: "Couldn't read."
+                errors: "Couldn't read.",
             });
         });
     });
@@ -166,7 +166,7 @@ describe("Redux api reducer", () => {
                     { ...defaultState, item, items },
                     {
                         type: "MOJO_UPDATE_REQUEST",
-                        payload: { id: item.id, data: { name: "tata" } }
+                        payload: { id: item.id, data: { name: "tata" } },
                     }
                 )
             ).toEqual({
@@ -174,7 +174,7 @@ describe("Redux api reducer", () => {
                 loading: true,
                 item: newItem,
                 items: newItems,
-                status: "update_request"
+                status: "update_request",
             });
         });
 
@@ -187,11 +187,11 @@ describe("Redux api reducer", () => {
                         loading: true,
                         error: true,
                         errors: {},
-                        errorCode: "oops"
+                        errorCode: "oops",
                     },
                     {
                         type: "MOJO_UPDATE_SUCCESS",
-                        payload: "item"
+                        payload: "item",
                     }
                 )
             ).toEqual({
@@ -200,7 +200,7 @@ describe("Redux api reducer", () => {
                 item: "item",
                 error: false,
                 errorCode: 0,
-                status: "success"
+                status: "update_success",
             });
         });
 
@@ -210,23 +210,23 @@ describe("Redux api reducer", () => {
                 reducer(
                     {
                         ...defaultState,
-                        loading: true
+                        loading: true,
                     },
                     {
                         type: "MOJO_UPDATE_FAILURE",
                         payload: {
                             errorCode: "oops",
-                            errors: "Couldn't update."
-                        }
+                            errors: "Couldn't update.",
+                        },
                     }
                 )
             ).toEqual({
                 ...defaultState,
                 loading: false,
-                status: "failure",
+                status: "update_failure",
                 error: true,
                 errorCode: "oops",
-                errors: "Couldn't update."
+                errors: "Couldn't update.",
             });
         });
     });
@@ -237,13 +237,13 @@ describe("Redux api reducer", () => {
             expect(
                 reducer(defaultState, {
                     type: "MOJO_LIST_REQUEST",
-                    payload: "me"
+                    payload: "me",
                 })
             ).toEqual({
                 ...defaultState,
                 args: "me",
                 loading: true,
-                status: "list_request"
+                status: "list_request",
             });
         });
 
@@ -261,11 +261,11 @@ describe("Redux api reducer", () => {
                         loading: true,
                         error: true,
                         errors: {},
-                        errorCode: "oops"
+                        errorCode: "oops",
                     },
                     {
                         type: "MOJO_LIST_SUCCESS",
-                        payload: [item2, item1]
+                        payload: [item2, item1],
                     }
                 )
             ).toEqual({
@@ -274,7 +274,7 @@ describe("Redux api reducer", () => {
                 items,
                 error: false,
                 errorCode: 0,
-                status: "success"
+                status: "list_success",
             });
         });
         it("should LIST_ERROR", () => {
@@ -283,23 +283,23 @@ describe("Redux api reducer", () => {
                 reducer(
                     {
                         ...defaultState,
-                        loading: true
+                        loading: true,
                     },
                     {
                         type: "MOJO_LIST_FAILURE",
                         payload: {
                             errorCode: "oops",
-                            errors: "Couldn't list."
-                        }
+                            errors: "Couldn't list.",
+                        },
                     }
                 )
             ).toEqual({
                 ...defaultState,
                 loading: false,
-                status: "failure",
+                status: "list_failure",
                 error: true,
                 errorCode: "oops",
-                errors: "Couldn't list."
+                errors: "Couldn't list.",
             });
         });
     });
@@ -310,13 +310,13 @@ describe("Redux api reducer", () => {
             expect(
                 reducer(defaultState, {
                     type: "MOJO_POST_REQUEST",
-                    payload: "me"
+                    payload: "me",
                 })
             ).toEqual({
                 ...defaultState,
                 args: "me",
                 loading: true,
-                status: "post_request"
+                status: "post_request",
             });
         });
 
@@ -329,11 +329,11 @@ describe("Redux api reducer", () => {
                         loading: true,
                         error: true,
                         errors: {},
-                        errorCode: "oops"
+                        errorCode: "oops",
                     },
                     {
                         type: "MOJO_POST_SUCCESS",
-                        payload: "item"
+                        payload: "item",
                     }
                 )
             ).toEqual({
@@ -342,7 +342,7 @@ describe("Redux api reducer", () => {
                 item: "item",
                 error: false,
                 errorCode: 0,
-                status: "success"
+                status: "post_success",
             });
         });
 
@@ -352,23 +352,23 @@ describe("Redux api reducer", () => {
                 reducer(
                     {
                         ...defaultState,
-                        loading: true
+                        loading: true,
                     },
                     {
                         type: "MOJO_POST_FAILURE",
                         payload: {
                             errorCode: "oops",
-                            errors: "Couldn't list."
-                        }
+                            errors: "Couldn't list.",
+                        },
                     }
                 )
             ).toEqual({
                 ...defaultState,
                 loading: false,
-                status: "failure",
+                status: "post_failure",
                 error: true,
                 errorCode: "oops",
-                errors: "Couldn't list."
+                errors: "Couldn't list.",
             });
         });
     });
@@ -379,13 +379,13 @@ describe("Redux api reducer", () => {
             expect(
                 reducer(defaultState, {
                     type: "MOJO_DELETE_REQUEST",
-                    payload: "me"
+                    payload: "me",
                 })
             ).toEqual({
                 ...defaultState,
                 args: "me",
                 loading: true,
-                status: "delete_request"
+                status: "delete_request",
             });
         });
 
@@ -398,10 +398,10 @@ describe("Redux api reducer", () => {
                         loading: true,
                         error: true,
                         errors: {},
-                        errorCode: "oops"
+                        errorCode: "oops",
                     },
                     {
-                        type: "MOJO_DELETE_SUCCESS"
+                        type: "MOJO_DELETE_SUCCESS",
                     }
                 )
             ).toEqual({
@@ -409,7 +409,7 @@ describe("Redux api reducer", () => {
                 loading: false,
                 error: false,
                 errorCode: 0,
-                status: "success"
+                status: "delete_success",
             });
         });
 
@@ -419,23 +419,23 @@ describe("Redux api reducer", () => {
                 reducer(
                     {
                         ...defaultState,
-                        loading: true
+                        loading: true,
                     },
                     {
                         type: "MOJO_DELETE_FAILURE",
                         payload: {
                             errorCode: "oops",
-                            errors: "Couldn't list."
-                        }
+                            errors: "Couldn't list.",
+                        },
                     }
                 )
             ).toEqual({
                 ...defaultState,
                 loading: false,
-                status: "failure",
+                status: "delete_failure",
                 error: true,
                 errorCode: "oops",
-                errors: "Couldn't list."
+                errors: "Couldn't list.",
             });
         });
 
@@ -449,8 +449,8 @@ describe("Redux api reducer", () => {
             ).toEqual({
                 ...defaultState,
                 item: {
-                    id: "1000"
-                }
+                    id: "1000",
+                },
             });
         });
 
@@ -463,7 +463,7 @@ describe("Redux api reducer", () => {
                 )
             ).toEqual({
                 ...defaultState,
-                item: {}
+                item: {},
             });
         });
     });
