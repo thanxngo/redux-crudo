@@ -1,0 +1,38 @@
+{
+  "name": "txg-shared",
+  "version": "0.0.1",
+  "description": "Thanxngo shared JavaScript modules.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/thanxango/txg-shared.git"
+  },
+  "author": "dev@thanxngo.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/thanxango/txg-shared/issues"
+  },
+  "homepage": "https://gitlab.com/thanxango/txg-shared#README",
+  "devDependencies": {
+    "babel-eslint": "^9.0.0",
+    "babel-plugin-root-import": "^6.1.0",
+    "eslint": "^5.5.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.1",
+    "prettier": "^1.14.2"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "immutability-helper": "^2.7.1",
+    "prop-types": "^15.6.2"
+  },
+  "prettier": {
+    "tabWidth": 4,
+    "trailingComma": "es5"
+  }
+}
