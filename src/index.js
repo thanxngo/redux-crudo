@@ -5,6 +5,7 @@ import { getActionsNameSpace } from "./utils";
 
 export default {
     apiActionTypes,
+    apiReducer,
     BaseApiReducerType,
     basicActionTypes,
     getActionsNameSpace,

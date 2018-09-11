@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import { apiReducer } from "../../redux-api/reducers";
+import { apiReducer } from "../reducers";
 
 const defaultState = {
     args: {},
