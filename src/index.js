@@ -3,7 +3,7 @@ import { apiReducer } from "./reducers";
 import { BaseApiReducerType } from "./types";
 import { getActionsNameSpace } from "./utils";
 
-export default {
+export {
     apiActionTypes,
     apiReducer,
     BaseApiReducerType,
