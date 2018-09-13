@@ -58,6 +58,13 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                     ...state,
                     item: {},
                 };
+            case basicActions.CLEAR_ERRORS:
+                return {
+                    ...state,
+                    error: false,
+                    errorCode: 0,
+                    errors: {},
+                };
             default:
         }
         // Create action

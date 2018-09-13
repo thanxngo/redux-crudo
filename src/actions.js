@@ -9,21 +9,21 @@ function getGroup(resource, action) {
         [`${typeName}_REQUEST`]: `${resource}_${action}_REQUEST`,
         [`${funcName}Request`]: payload => ({
             type: `${resource}_${action}_REQUEST`,
-            payload
+            payload,
         }),
         [`${typeName}_SUCCESS`]: `${resource}_${action}_SUCCESS`,
         [`${funcName}Success`]: payload => ({
             type: `${resource}_${action}_SUCCESS`,
-            payload
+            payload,
         }),
         [`${typeName}_FAILURE`]: `${resource}_${action}_FAILURE`,
         [`${funcName}Failure`]: (errorCode, errors) => ({
             type: `${resource}_${action}_FAILURE`,
             payload: {
                 errorCode,
-                errors
-            }
-        })
+                errors,
+            },
+        }),
     };
 }
 
@@ -37,11 +37,15 @@ export function basicActionTypes(resource) {
     actions.SET_ITEM = `${resource}_SET_ITEM`;
     actions.setItem = payload => ({
         type: actions.SET_ITEM,
-        payload
+        payload,
     });
     actions.CLEAR_ITEM = `${resource}_CLEAR_ITEM`;
     actions.clearItem = () => ({
-        type: actions.CLEAR_ITEM
+        type: actions.CLEAR_ITEM,
+    });
+    actions.CLEAR_ERRORS = `${resource}_CLEAR_ERRORS`;
+    actions.clearErrors = () => ({
+        type: actions.CLEAR_ERRORS,
     });
     return actions;
 }
@@ -50,49 +54,49 @@ export function apiActionTypes(resource, methods = "crudlp") {
     if (resource === null) throw new Error("Expected resource");
     if (resource.trim() === "") throw new Error("Expected resource");
     let actionTypes = {
-        ...basicActionTypes(resource)
+        ...basicActionTypes(resource),
     };
 
     // CREATE
     if (methods.indexOf("c") > -1) {
         actionTypes = {
             ...actionTypes,
-            ...getGroup(resource, "CREATE")
+            ...getGroup(resource, "CREATE"),
         };
     }
     // READ
     if (methods.indexOf("r") > -1) {
         actionTypes = {
             ...actionTypes,
-            ...getGroup(resource, "READ")
+            ...getGroup(resource, "READ"),
         };
     }
     // UPDATE
     if (methods.indexOf("u") > -1) {
         actionTypes = {
             ...actionTypes,
-            ...getGroup(resource, "UPDATE")
+            ...getGroup(resource, "UPDATE"),
         };
     }
     // DELETE
     if (methods.indexOf("d") > -1) {
         actionTypes = {
             ...actionTypes,
-            ...getGroup(resource, "DELETE")
+            ...getGroup(resource, "DELETE"),
         };
     }
     // LIST
     if (methods.indexOf("l") > -1) {
         actionTypes = {
             ...actionTypes,
-            ...getGroup(resource, "LIST")
+            ...getGroup(resource, "LIST"),
         };
     }
     // Generic POST action
     if (methods.indexOf("p") > -1) {
         actionTypes = {
             ...actionTypes,
-            ...getGroup(resource, "POST")
+            ...getGroup(resource, "POST"),
         };
     }
 
@@ -112,14 +116,11 @@ export function apiActionTypes(resource, methods = "crudlp") {
         const FAILURE = this[`${method}Failure`];
         this[name] = args => async dispatch => {
             dispatch(REQUEST(args));
-            const response = await apiMethod(args);
-            if (response.status === "ok") {
-                dispatch(SUCCESS(response.data));
-                if (callback) {
-                    callback(response.data, args, dispatch);
-                }
-            } else {
-                dispatch(FAILURE(response.statusCode, response.error));
+            try {
+                const response = await apiMethod(args);
+                dispatch(SUCCESS(response));
+            } catch (error) {
+                dispatch(FAILURE(error.statusCode, error));
             }
         };
     };
