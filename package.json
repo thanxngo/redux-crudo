@@ -1,5 +1,5 @@
 {
-  "name": "txg-redux-api",
+  "name": "redux-crudo",
   "version": "0.0.1",
   "description": "Thanxngo shared JavaScript modules.",
   "main": "index.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/thanxango/txg-shared.git"
+    "url": "git+https://github.com/thanxngo/redux-crudo.git"
   },
   "author": "Thanxngo dev team <dev@thanxngo.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://gitlab.com/thanxango/txg-shared/issues"
+    "url": "https://github.com/thanxngo/redux-crudo/issues"
   },
-  "homepage": "https://gitlab.com/thanxango/txg-shared#README",
+  "homepage": "https://github.com/thanxngo/redux-crudo/#README",
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
