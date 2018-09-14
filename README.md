@@ -1,4 +1,4 @@
-# redux-api
+# redux-crudo
 
 This package is a framework to integrate redux with a REST api.
 
