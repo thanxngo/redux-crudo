@@ -104,12 +104,7 @@ export function apiActionTypes(resource, methods = "crudlp") {
      * Register a new action linked to an api call
      * TODO: make it return a Promise.
      */
-    actionTypes.register = function register(
-        name,
-        apiMethod,
-        method,
-        callback = null
-    ) {
+    actionTypes.register = function register(name, apiMethod, method) {
         // Get request, success, failure actions
         const REQUEST = this[`${method}Request`];
         const SUCCESS = this[`${method}Success`];
