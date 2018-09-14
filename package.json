@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "immutability-helper": "^2.7.1",
+    "immutable": "^3.8.2",
     "prop-types": "^15.6.2"
   },
   "prettier": {

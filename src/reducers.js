@@ -1,7 +1,5 @@
-/*
- * Generic reducer for CRUDL operations.
- */
 import update from "immutability-helper";
+import { Map } from "immutable";
 
 import { apiActionTypes, basicActionTypes } from "./actions";
 
@@ -9,11 +7,7 @@ import { apiActionTypes, basicActionTypes } from "./actions";
  * Arrange items by UUID
  */
 function byId(list) {
-    const items = new Map();
-    list.forEach(item => {
-        items.set(item.uuid, item);
-    });
-    return items;
+    return Map(list.map(item => [item.uuid, item]));
 }
 
 const noErrorsState = {
