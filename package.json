@@ -1,51 +1,51 @@
 {
-  "name": "redux-crudo",
-  "version": "0.0.1",
-  "description": "Thanxngo shared JavaScript modules.",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest",
-    "compile": "babel -d lib/ src/"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/thanxngo/redux-crudo.git"
-  },
-  "author": "Thanxngo dev team <dev@thanxngo.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/thanxngo/redux-crudo/issues"
-  },
-  "homepage": "https://github.com/thanxngo/redux-crudo/#README",
-  "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^9.0.0",
-    "babel-jest": "^23.6.0",
-    "babel-plugin-root-import": "^6.1.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "eslint": "^5.5.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-react": "^7.11.1",
-    "jest": "^23.6.0",
-    "prettier": "^1.14.2"
-  },
-  "dependencies": {
-    "immutability-helper": "^2.7.1",
-    "immutable": "^3.8.2",
-    "prop-types": "^15.6.2"
-  },
-  "prettier": {
-    "tabWidth": 4,
-    "trailingComma": "es5"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
+    "name": "redux-crudo",
+    "version": "0.0.1",
+    "description": "A package for writing convention-driven reducers and actions for Redux.",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest",
+        "compile": "babel -d lib/ src/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/thanxngo/redux-crudo.git"
+    },
+    "author": "Thanxngo Dev Team <dev@thanxngo.com>",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/thanxngo/redux-crudo/issues"
+    },
+    "homepage": "https://github.com/thanxngo/redux-crudo/#README",
+    "devDependencies": {
+        "babel": "^6.23.0",
+        "babel-cli": "^6.26.0",
+        "babel-core": "^6.26.3",
+        "babel-eslint": "^9.0.0",
+        "babel-jest": "^23.6.0",
+        "babel-plugin-root-import": "^6.1.0",
+        "babel-plugin-transform-object-rest-spread": "^6.26.0",
+        "babel-preset-env": "^1.7.0",
+        "eslint": "^5.5.0",
+        "eslint-config-airbnb": "^17.1.0",
+        "eslint-plugin-import": "^2.14.0",
+        "eslint-plugin-jsx-a11y": "^6.1.1",
+        "eslint-plugin-react": "^7.11.1",
+        "jest": "^23.6.0",
+        "prettier": "^1.14.2"
+    },
+    "dependencies": {
+        "immutability-helper": "^2.7.1",
+        "immutable": "^3.8.2",
+        "prop-types": "^15.6.2"
+    },
+    "prettier": {
+        "tabWidth": 4,
+        "trailingComma": "es5"
+    },
+    "jest": {
+        "transform": {
+            "^.+\\.jsx?$": "babel-jest"
+        }
     }
-  }
 }
