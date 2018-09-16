@@ -4,7 +4,7 @@ import T from "prop-types";
 const BaseApiReducerType = T.shape({
     args: T.object.isRequired,
     item: T.object.isRequired,
-    items: T.instanceOf(Map).isRequired,
+    items: T.object.isRequired,
     error: T.bool.isRequired,
     errorCode: T.number.isRequired,
     errors: T.object.isRequired,
