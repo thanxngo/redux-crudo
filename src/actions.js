@@ -1,7 +1,6 @@
 /*
  * Generic actions for CRUDL operations
  */
-
 function getGroup(resource, action) {
     const typeName = `${action}`;
     const funcName = `${action.toLowerCase()}`;
