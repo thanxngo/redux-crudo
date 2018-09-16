@@ -221,18 +221,6 @@ describe("Redux api actions", () => {
                 },
             });
         });
-
-        it("should trigger success callback", async () => {
-            const mojoActions = apiActionTypes("MOJO", "r");
-            const mockedApi = {
-                read: () => Promise.resolve({ data: "data", status: "ok" }),
-            };
-            const spy = jest.fn();
-            const mockedDispatch = jest.fn();
-            mojoActions.register("read", mockedApi.read, "read", spy);
-            await mojoActions.read("arg")(mockedDispatch);
-            expect(spy).toHaveBeenCalledWith("data", "arg", mockedDispatch);
-        });
     });
 
     describe("basic actions", () => {

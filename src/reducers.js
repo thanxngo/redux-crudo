@@ -68,7 +68,6 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                     return {
                         ...state,
                         ...noErrorsState,
-                        item: payload.data || {},
                         args: payload || {},
                         status: "create_request",
                         loading: true,
@@ -125,33 +124,9 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
         if (methods.indexOf("u") > -1) {
             switch (action.type) {
                 case actions.UPDATE_REQUEST: {
-                    // Optimistic Updates:
-                    const id = payload.id;
-                    let newItem = null;
-                    let newItems = new Map();
-                    if (id && state.items && state.items.has(id)) {
-                        // Update items list
-                        const item = state.items.get(id);
-                        newItem = {
-                            ...item,
-                            ...payload.data,
-                        };
-                        newItems = update(state.items, {
-                            [id]: { $set: newItem },
-                        });
-                    }
-                    if (state.item) {
-                        // Update current item
-                        newItem = {
-                            ...state.item,
-                            ...payload.data,
-                        };
-                    }
                     return {
                         ...state,
                         ...noErrorsState,
-                        item: newItem || {},
-                        items: newItems,
                         loading: true,
                         status: "update_request",
                     };

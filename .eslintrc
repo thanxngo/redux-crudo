@@ -31,6 +31,6 @@
                 }
             }
         ],
-        "operator-linebreak": ["after", { "overrides": { "?": "before", ":": "before", "=": "after" } } ]
+        "operator-linebreak": [2, "after", { "overrides": { "?": "before", ":": "before", "=": "after" } } ]
     }
 }
