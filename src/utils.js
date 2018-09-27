@@ -3,7 +3,7 @@
  * @param {String} nameSpace - the name space that will be used as a prefix.
  * @returns {Function} - The prefix parser.
  */
-export function getActionsNameSpace(nameSpace) {
+export function getns(nameSpace) {
     /**
      * Function that returns a prefixed resource action.
      * @param {String} resource - The resource.
@@ -11,3 +11,10 @@ export function getActionsNameSpace(nameSpace) {
      */
     return resource => `${nameSpace}/${resource}`;
 }
+
+export const CREATE = 1;
+export const READ = 2;
+export const UPDATE = 4;
+export const DELETE = 8;
+export const LIST = 16;
+export const POST = 32;

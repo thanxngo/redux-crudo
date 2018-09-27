@@ -1,14 +1,8 @@
 import update from "immutability-helper";
 import { Map } from "immutable";
 
-import { apiActionTypes, basicActionTypes } from "./actions";
-
-/**
- * Arrange items by UUID
- */
-function byId(list) {
-    return Map(list.map(item => [item.uuid, item]));
-}
+import { apiActions } from "./actions";
+import { CREATE, READ, UPDATE, DELETE, LIST, POST } from "./utils";
 
 const noErrorsState = {
     error: false,
@@ -18,11 +12,26 @@ const noErrorsState = {
 };
 
 /**
- * TODO
+ * Arrange items by UUID
+ * @param {Map} list - list of objects
+ *
+ * @return {Map} sorted list of objects
  */
-export function apiReducer(resource, methods = "crudlp", options = {}) {
-    const actions = apiActionTypes(resource, methods);
-    const basicActions = basicActionTypes(resource);
+function byId(list) {
+    return Map(list.map(item => [item.uuid, item]));
+}
+
+/**
+ * Return a generic reducer for API actions.
+ *
+ * @param {string} resource - Name of the resource with prefix
+ * @param {number} methods - Combinaison of (CREATE, READ, UPDATE, DELETE, LIST, POST)
+ * @param {Object} options - Set of options
+ *
+ * @returns {function} Reducer function.
+ */
+export function apiReducer(resource, methods = 0, options = {}) {
+    const actions = apiActions(resource, methods);
     const initialState = {
         args: {},
         item: {},
@@ -42,17 +51,17 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
         const { payload } = action;
         // Basic actions
         switch (action.type) {
-            case basicActions.SET_ITEM:
+            case actions.SET_ITEM:
                 return {
                     ...state,
                     item: payload,
                 };
-            case basicActions.CLEAR_ITEM:
+            case actions.CLEAR_ITEM:
                 return {
                     ...state,
                     item: {},
                 };
-            case basicActions.CLEAR_ERRORS:
+            case actions.CLEAR_ERRORS:
                 return {
                     ...state,
                     error: false,
@@ -62,7 +71,7 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
             default:
         }
         // Create action
-        if (methods.indexOf("c") > -1) {
+        if (methods & CREATE) {
             switch (action.type) {
                 case actions.CREATE_REQUEST:
                     return {
@@ -92,7 +101,7 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
             }
         }
         // Read action
-        if (methods.indexOf("r") > -1) {
+        if (methods & READ) {
             switch (action.type) {
                 case actions.READ_REQUEST:
                     return {
@@ -121,7 +130,7 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
             }
         }
         // Update actions
-        if (methods.indexOf("u") > -1) {
+        if (methods & UPDATE) {
             switch (action.type) {
                 case actions.UPDATE_REQUEST: {
                     return {
@@ -150,8 +159,37 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                 default:
             }
         }
+        // Delete actions
+        if (methods & DELETE) {
+            switch (action.type) {
+                case actions.DELETE_REQUEST:
+                    return {
+                        ...state,
+                        ...noErrorsState,
+                        args: payload || {},
+                        status: "delete_request",
+                        loading: true,
+                    };
+                case actions.DELETE_SUCCESS:
+                    return {
+                        ...state,
+                        ...noErrorsState,
+                        status: "delete_success",
+                    };
+                case actions.DELETE_FAILURE:
+                    return {
+                        ...state,
+                        error: true,
+                        errorCode: payload.errorCode,
+                        errors: payload.errors,
+                        loading: false,
+                        status: "delete_failure",
+                    };
+                default:
+            }
+        }
         // List actions
-        if (methods.indexOf("l") > -1) {
+        if (methods & LIST) {
             switch (action.type) {
                 case actions.LIST_REQUEST:
                     return {
@@ -180,7 +218,7 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
             }
         }
         // Post actions
-        if (methods.indexOf("p") > -1) {
+        if (methods & POST) {
             switch (action.type) {
                 case actions.POST_REQUEST:
                     return {
@@ -204,35 +242,6 @@ export function apiReducer(resource, methods = "crudlp", options = {}) {
                         errors: payload.errors,
                         loading: false,
                         status: "post_failure",
-                    };
-                default:
-            }
-        }
-        // Create action
-        if (methods.indexOf("d") > -1) {
-            switch (action.type) {
-                case actions.DELETE_REQUEST:
-                    return {
-                        ...state,
-                        ...noErrorsState,
-                        args: payload || {},
-                        status: "delete_request",
-                        loading: true,
-                    };
-                case actions.DELETE_SUCCESS:
-                    return {
-                        ...state,
-                        ...noErrorsState,
-                        status: "delete_success",
-                    };
-                case actions.DELETE_FAILURE:
-                    return {
-                        ...state,
-                        error: true,
-                        errorCode: payload.errorCode,
-                        errors: payload.errors,
-                        loading: false,
-                        status: "delete_failure",
                     };
                 default:
             }
