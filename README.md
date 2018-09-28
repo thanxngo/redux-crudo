@@ -1,9 +1,9 @@
 # redux-crudo
 
-This package is a framework to integrate redux with a REST api.
+A package for writing convention-driven reducers and actions for Redux.
 
 It provides, generic reducers and actions for all rest methods and
-a generic post method: (create, read, update, delete, list and post).
+a generic post methods: (create, read, update, delete, list and post).
 
 
 ## Goal
@@ -39,42 +39,25 @@ const initialState = {
   items: new Map(),
   error: false,
   errors: {},
-  errorCode: 0,
-  result: {},
   loading: false,
-  status: null
+  status: "",
+  statusCode: 0,
 }
 ```
 
 - args: is set to action.payload in all **REQUEST** actions.
-- item: is the item in *READ* & *UPDATE* actions, it's automatically & optimistically updated.
-- items: is a Map() used in *LIST* actions, it's automatically &
-  optimistically updated. For now Map() objects are sorted according
-  to the API result and can be accessed by their uuid. For now only
-  uuid keyed items are supported. **TODO** : handle any kind of primary key.
+- item: is the item in *READ* & *UPDATE* actions.
+- items: is a Map() used in *LIST* actions, For now Map() objects are
+  sorted according to the API result and can be accessed by their
+  uuid. For now only uuid keyed items are supported. **TODO** : handle
+  any kind of primary key.
 - error: boolean if last request failed or not.
 - errors: set to response.data (if action is generated with the register method and used the standard api wrapper).
-- errorCode: http error code response. **TODO** set this to http code everytime ?
-- result: response.data in *CREATE* & *POST* request. **TODO** merge this with item ?
 - loading: set to true in **REQUEST** set to false in **FAILURE** or **SUCCESS**.
-- status: set to null in **REQUEST**, "success" in SUCCESS, "failure" in FAILURE.
-
-### Uses cases
-
-TODO
+- status: name of last action, e.g "create_request", "create_success", etc.
+- statusCode: http code response.
 
 ## Reducers
-
-**redux-api/reducers.js**
-```javascript
-/**
- * apiReducer Return a reducer for a resource.
- * @param {resource} string Name of the resource should be all caps. eg. "ACCOUNT"
- * @param {methods} string List of methods that should be handled by the reducer.
- *    Should be a subset of "crudlp".
- */
-export function apiReducer(resource: string, methods = "crudlp");
-```
 
 ### Example of a reducer
 
@@ -83,31 +66,17 @@ export function apiReducer(resource: string, methods = "crudlp");
  * Account reducers.
  */
 import { combineReducers } from "redux";
-import { apiReducer } from "redux-api/reducers";
+import { CREATE, READ, UPDATE, DELETE, LIST, POST } from "redux-crudo/utils";
+import { apiReducer } from "redux-crudo/reducers";
 
 // Handle read and update
-export default const accountReducer = apiReducer("ACCOUNT", "ru");
+export default const accountReducer = apiReducer("ACCOUNT", READ | UPDATE);
 ```
 
 ## Actions
 
-**redux-api/actions.js**
-```javascript
-/**
- * apiActionTypes Return an action object for a resource.
- * @param {resource} string Name of the resource should be all caps. eg. "ACCOUNT"
- * @param {methods} string List of methods that should be handled by the reducer.
- *    Should be a subset of "crudlp".
- */
-export function apiActionTypes(resource, methods = "crudlp");
 ```
-
-`apiActionTypes` will return an object containing actions types for the resource.
-
-Example:
-
-```
-const AccountActions = apiActionTypes("ACCOUNT", "ru");
+const AccountActions = apiActions("ACCOUNT", READ | UPDATE);
 ```
 
 accountActions will contain the following action types:
@@ -129,94 +98,59 @@ readSuccess: ƒ (payload)
 updateFailure: ƒ (errorCode, errors)
 updateRequest: ƒ (payload)
 updateSuccess: ƒ (payload)
-register: ƒ register(name, apiMethod, method)
 ```
 
-### register()
+## Assign a crud operation
 
-The register method associated with every **apiActionType** allows to
-register a new api function.
-
-```javascript
-/**
- * register Register a new api function to the apiActionType object.
- * @param {name} string Name of the action.
- * @param {apiMethod} func Method to call for the REQUEST action.
- * @param {method} string Rest method to use (must be one of
- * ["create", "read", "update", "list", "delete", "post"]
- */
-function register(name: string, apiMethod: func, method: string);
 ```
-
-Example:
-```javascript
-AccountActions.register("fetch", AccountApi.fetch, "read");
+import { apiActions, assignCrudMethod } from "redux-crudo/actions";
+const AccountActions = apiActions("ACCOUNT", READ | UPDATE);
+// Given that Services.Account.create is the api call method
+AccountActions.create = assignCrudMethod(
+    AccountActions,
+    Services.Account.create,
+    CREATE
+);
 ```
-
-Register the action `"fetch"` to `AccountActions` so we can now
-dispatch `AccountActions.fetch()` and this will trigger the
-**REQUEST** and **SUCCESS** or **FAILURE** action accordingly.
-
 
 #### Note on the api method.
 
-Api methods must by *async* and return the following:
+Api methods must by *async* and behave like
+[axios](https://github.com/axios/axios) methods.
+
+The `assignCrudMethod` return an action that behave like this:
 
 ```javascript
-// In case of success
-return {
-   status: "ok",
-   data: response.data
-};
-
-// In case of failure
-return {
-  status: "error",
-  statusCode: error.response.status,
-  error: error.response.data
-};
+try {
+    const response = await apiMethod(args);
+    dispatch(SUCCESS(response.status, response.data));
+} catch (error) {
+    dispatch(FAILURE(error.response.status, error.response.data));
+}
 ```
 
-### Full actions.js example
+So the API method should return a `{response: { data: "...", status:
+200}}` object on success. And raise a `error = {response: { data:
+"...", status: 200}}` on failure.
 
-```javascript
-import AccountApi from "api/account";
-import { apiActionTypes } from "redux-api/actions";
-import { getSessionUserId } from "utils/session";
-
-const AccountActions = apiActionTypes("ACCOUNT", "ru");
-
-AccountActions.register("fetch", AccountApi.fetch, "read");
-AccountActions.register("patch", AccountApi.patch, "update");
-
-AccountActions.fetchCurrent = function fetchCurrent() {
-    return async dispatch => {
-        dispatch(this.fetch(getSessionUserId()));
-    };
-};
-
-export default AccountActions;
-```
 
 ### Warning on actions
 
-The way javascript works with function parameters constrains to only
-use API methods that takes only one argument.  It's because of the way
-`register` works by passing arguments of the action to the api method.
+API methods should only take one context object and destructuring it.
 
 Example:
 ```javascript
-AccountApi.patch = async ({ id, data }) => {
+Services.Account.update. = async ({ id, data }) => {
     return axios.patch(`${ACCOUNT_DETAIL}${id}/`, data);
 }
 ```
 
-It's up to the `mapDispatchToProps` to call the method with the
-correct arguments.
+Pay attention when writing `mapDispatchToProps` to not destructuring too early.
 
 ```javascript
-// Multiple to single argument
 const mapDispatchToProps = dispatch => ({
-    handleSubmit: (id, data) => dispatch(AccountActions.patch({ id, data }))
+    handleSubmit: {(id, data)} => dispatch(AccountActions.update({ id, data }))
+    // or
+    handleSubmit: payload => dispatch(AccountActions.update(payload))
 });
 ```

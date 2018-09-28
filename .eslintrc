@@ -19,6 +19,7 @@
         "valid-jsdoc": [2],
         "space-before-function-paren": [0],
         "implicit-arrow-linebreak": [0],
+        "no-bitwise": [0],
         "require-jsdoc": [
             2,
             {

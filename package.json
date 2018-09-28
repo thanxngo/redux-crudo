@@ -1,6 +1,6 @@
 {
     "name": "@thanxngo/redux-crudo",
-    "version": "0.0.4",
+    "version": "0.1.0",
     "description": "A package for writing convention-driven reducers and actions for Redux.",
     "main": "index.js",
     "scripts": {
@@ -12,7 +12,7 @@
         "url": "git+https://github.com/thanxngo/redux-crudo.git"
     },
     "author": "Thanxngo Dev Team <dev@thanxngo.com>",
-    "license": "ISC",
+    "license": "MIT",
     "bugs": {
         "url": "https://github.com/thanxngo/redux-crudo/issues"
     },

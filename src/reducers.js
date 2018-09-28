@@ -6,7 +6,6 @@ import { CREATE, READ, UPDATE, DELETE, LIST, POST } from "./utils";
 
 const noErrorsState = {
     error: false,
-    errorCode: 0,
     errors: {},
     loading: false,
 };
@@ -38,9 +37,9 @@ export function apiReducer(resource, methods = 0, options = {}) {
         items: new Map(),
         error: false,
         errors: {},
-        errorCode: 0,
         loading: false,
         status: "",
+        statusCode: 0,
     };
     const {
         // Function that sort items returned by list.
@@ -64,9 +63,7 @@ export function apiReducer(resource, methods = 0, options = {}) {
             case actions.CLEAR_ERRORS:
                 return {
                     ...state,
-                    error: false,
-                    errorCode: 0,
-                    errors: {},
+                    ...noErrorsState
                 };
             default:
         }
@@ -78,24 +75,25 @@ export function apiReducer(resource, methods = 0, options = {}) {
                         ...state,
                         ...noErrorsState,
                         args: payload || {},
-                        status: "create_request",
                         loading: true,
+                        status: "create_request",
                     };
                 case actions.CREATE_SUCCESS:
                     return {
                         ...state,
                         ...noErrorsState,
-                        item: payload,
+                        item: payload.data,
                         status: "create_success",
+                        statusCode: payload.statusCode,
                     };
                 case actions.CREATE_FAILURE:
                     return {
                         ...state,
                         error: true,
-                        errorCode: payload.errorCode,
-                        errors: payload.errors,
+                        errors: payload.data,
                         loading: false,
                         status: "create_failure",
+                        statusCode: payload.statusCode,
                     };
                 default:
             }
@@ -114,17 +112,18 @@ export function apiReducer(resource, methods = 0, options = {}) {
                     return {
                         ...state,
                         ...noErrorsState,
-                        item: payload,
+                        item: payload.data,
                         status: "read_success",
+                        statusCode: payload.statusCode,
                     };
                 case actions.READ_FAILURE:
                     return {
                         ...state,
                         error: true,
-                        errorCode: payload.errorCode,
-                        errors: payload.errors,
+                        errors: payload.data,
                         loading: false,
                         status: "read_failure",
+                        statusCode: payload.statusCode,
                     };
                 default:
             }
@@ -136,6 +135,7 @@ export function apiReducer(resource, methods = 0, options = {}) {
                     return {
                         ...state,
                         ...noErrorsState,
+                        args: payload || {},
                         loading: true,
                         status: "update_request",
                     };
@@ -144,17 +144,18 @@ export function apiReducer(resource, methods = 0, options = {}) {
                     return {
                         ...state,
                         ...noErrorsState,
-                        item: action.payload,
+                        item: payload.data,
                         status: "update_success",
+                        statusCode: payload.statusCode,
                     };
                 case actions.UPDATE_FAILURE:
                     return {
                         ...state,
                         error: true,
-                        errorCode: payload.errorCode,
-                        errors: payload.errors,
+                        errors: payload.data,
                         loading: false,
                         status: "update_failure",
+                        statusCode: payload.statusCode,
                     };
                 default:
             }
@@ -175,15 +176,16 @@ export function apiReducer(resource, methods = 0, options = {}) {
                         ...state,
                         ...noErrorsState,
                         status: "delete_success",
+                        statusCode: payload.statusCode,
                     };
                 case actions.DELETE_FAILURE:
                     return {
                         ...state,
                         error: true,
-                        errorCode: payload.errorCode,
-                        errors: payload.errors,
+                        errors: payload.data,
                         loading: false,
                         status: "delete_failure",
+                        statusCode: payload.statusCode,
                     };
                 default:
             }
@@ -202,17 +204,20 @@ export function apiReducer(resource, methods = 0, options = {}) {
                     return {
                         ...state,
                         ...noErrorsState,
-                        items: sortItems ? sortItems(payload) : byId(payload),
+                        items: sortItems
+                            ? sortItems(payload.data)
+                            : byId(payload.data),
                         status: "list_success",
+                        statusCode: payload.statusCode,
                     };
                 case actions.LIST_FAILURE:
                     return {
                         ...state,
                         error: true,
-                        errorCode: payload.errorCode,
-                        errors: payload.errors,
+                        errors: payload.data,
                         loading: false,
                         status: "list_failure",
+                        statusCode: payload.statusCode,
                     };
                 default:
             }
@@ -231,17 +236,18 @@ export function apiReducer(resource, methods = 0, options = {}) {
                     return {
                         ...state,
                         ...noErrorsState,
-                        item: payload || {},
+                        item: payload.data || {},
                         status: "post_success",
+                        statusCode: payload.statusCode,
                     };
                 case actions.POST_FAILURE:
                     return {
                         ...state,
                         error: true,
-                        errorCode: payload.errorCode,
-                        errors: payload.errors,
+                        errors: payload.data,
                         loading: false,
                         status: "post_failure",
+                        statusCode: payload.statusCode,
                     };
                 default:
             }

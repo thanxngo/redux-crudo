@@ -1,5 +1,8 @@
 /* eslint-env jest */
+import { Map } from "immutable";
 import { apiReducer } from "../reducers";
+
+import { CREATE, READ, UPDATE, DELETE, LIST, POST } from "../utils";
 
 const defaultState = {
     args: {},
@@ -7,15 +10,15 @@ const defaultState = {
     items: new Map(),
     error: false,
     errors: {},
-    errorCode: 0,
     loading: true,
     status: "create_request",
+    statusCode: 0,
 };
 
 describe("Redux api reducer", () => {
     describe("Create", () => {
         it("should CREATE_REQUEST", () => {
-            const reducer = apiReducer("MOJO", "c");
+            const reducer = apiReducer("MOJO", CREATE);
             expect(
                 reducer(defaultState, {
                     type: "MOJO_CREATE_REQUEST",
@@ -24,14 +27,13 @@ describe("Redux api reducer", () => {
             ).toEqual({
                 ...defaultState,
                 args: { data: { me: "me" } },
-                item: { me: "me" },
                 loading: true,
                 status: "create_request",
             });
         });
 
         it("should CREATE_SUCCESS", () => {
-            const reducer = apiReducer("MOJO", "c");
+            const reducer = apiReducer("MOJO", CREATE);
             const initialState = {
                 ...defaultState,
                 args: "me",
@@ -41,7 +43,10 @@ describe("Redux api reducer", () => {
             expect(
                 reducer(initialState, {
                     type: "MOJO_CREATE_SUCCESS",
-                    payload: "created",
+                    payload: {
+                        statusCode: 200,
+                        data: "created",
+                    },
                 })
             ).toEqual({
                 ...defaultState,
@@ -49,11 +54,12 @@ describe("Redux api reducer", () => {
                 item: "created",
                 loading: false,
                 status: "create_success",
+                statusCode: 200,
             });
         });
 
         it("should CREATE_ERROR", () => {
-            const reducer = apiReducer("MOJO", "c");
+            const reducer = apiReducer("MOJO", CREATE);
             expect(
                 reducer(
                     {
@@ -63,8 +69,8 @@ describe("Redux api reducer", () => {
                     {
                         type: "MOJO_CREATE_FAILURE",
                         payload: {
-                            errorCode: "oops",
-                            errors: "Couldn't create.",
+                            data: "Couldn't create.",
+                            statusCode: 400,
                         },
                     }
                 )
@@ -73,15 +79,15 @@ describe("Redux api reducer", () => {
                 loading: false,
                 status: "create_failure",
                 error: true,
-                errorCode: "oops",
                 errors: "Couldn't create.",
+                statusCode: 400,
             });
         });
     });
 
     describe("Read", () => {
         it("should READ_REQUEST", () => {
-            const reducer = apiReducer("MOJO", "r");
+            const reducer = apiReducer("MOJO", READ);
             expect(
                 reducer(defaultState, {
                     type: "MOJO_READ_REQUEST",
@@ -96,20 +102,22 @@ describe("Redux api reducer", () => {
         });
 
         it("should READ_SUCCESS", () => {
-            const reducer = apiReducer("MOJO", "r");
+            const reducer = apiReducer("MOJO", READ);
             expect(
                 reducer(
                     {
                         ...defaultState,
                         error: true,
-                        errorCode: "1000",
                         errors: "oops",
                         loading: true,
                         item: "toto",
                     },
                     {
                         type: "MOJO_READ_SUCCESS",
-                        payload: "item",
+                        payload: {
+                            data: "item",
+                            statusCode: 200,
+                        },
                     }
                 )
             ).toEqual({
@@ -119,12 +127,12 @@ describe("Redux api reducer", () => {
                 status: "read_success",
                 error: false,
                 errors: {},
-                errorCode: 0,
+                statusCode: 200,
             });
         });
 
         it("should READ_ERROR", () => {
-            const reducer = apiReducer("MOJO", "r");
+            const reducer = apiReducer("MOJO", READ);
             expect(
                 reducer(
                     {
@@ -134,8 +142,8 @@ describe("Redux api reducer", () => {
                     {
                         type: "MOJO_READ_FAILURE",
                         payload: {
-                            errorCode: "oops",
-                            errors: "Couldn't read.",
+                            data: "Couldn't read.",
+                            statusCode: 400,
                         },
                     }
                 )
@@ -144,15 +152,15 @@ describe("Redux api reducer", () => {
                 loading: false,
                 status: "read_failure",
                 error: true,
-                errorCode: "oops",
                 errors: "Couldn't read.",
+                statusCode: 400,
             });
         });
     });
 
     describe("Update", () => {
         it("should UPDATE_REQUEST", () => {
-            const reducer = apiReducer("MOJO", "u");
+            const reducer = apiReducer("MOJO", UPDATE);
             // Current state
             const item = { id: "1000", name: "toto" };
             const items = new Map();
@@ -163,7 +171,7 @@ describe("Redux api reducer", () => {
             newItems.set(newItem.id, newItem);
             expect(
                 reducer(
-                    { ...defaultState, item, items },
+                    { ...defaultState },
                     {
                         type: "MOJO_UPDATE_REQUEST",
                         payload: { id: item.id, data: { name: "tata" } },
@@ -171,15 +179,14 @@ describe("Redux api reducer", () => {
                 )
             ).toEqual({
                 ...defaultState,
+                args: { id: item.id, data: { name: "tata" } },
                 loading: true,
-                item: newItem,
-                items: newItems,
                 status: "update_request",
             });
         });
 
         it("should UPDATE_SUCCESS", () => {
-            const reducer = apiReducer("MOJO", "u");
+            const reducer = apiReducer("MOJO", UPDATE);
             expect(
                 reducer(
                     {
@@ -187,11 +194,13 @@ describe("Redux api reducer", () => {
                         loading: true,
                         error: true,
                         errors: {},
-                        errorCode: "oops",
                     },
                     {
                         type: "MOJO_UPDATE_SUCCESS",
-                        payload: "item",
+                        payload: {
+                            data: "item",
+                            statusCode: 200,
+                        },
                     }
                 )
             ).toEqual({
@@ -199,13 +208,13 @@ describe("Redux api reducer", () => {
                 loading: false,
                 item: "item",
                 error: false,
-                errorCode: 0,
                 status: "update_success",
+                statusCode: 200,
             });
         });
 
         it("should UPDATE_ERROR", () => {
-            const reducer = apiReducer("MOJO", "u");
+            const reducer = apiReducer("MOJO", UPDATE);
             expect(
                 reducer(
                     {
@@ -215,8 +224,8 @@ describe("Redux api reducer", () => {
                     {
                         type: "MOJO_UPDATE_FAILURE",
                         payload: {
-                            errorCode: "oops",
-                            errors: "Couldn't update.",
+                            data: "Couldn't update.",
+                            statusCode: 400,
                         },
                     }
                 )
@@ -225,15 +234,15 @@ describe("Redux api reducer", () => {
                 loading: false,
                 status: "update_failure",
                 error: true,
-                errorCode: "oops",
                 errors: "Couldn't update.",
+                statusCode: 400,
             });
         });
     });
 
     describe("List", () => {
         it("should LIST_REQUEST", () => {
-            const reducer = apiReducer("MOJO", "l");
+            const reducer = apiReducer("MOJO", LIST);
             expect(
                 reducer(defaultState, {
                     type: "MOJO_LIST_REQUEST",
@@ -248,12 +257,12 @@ describe("Redux api reducer", () => {
         });
 
         it("should LIST_SUCCESS", () => {
-            const reducer = apiReducer("MOJO", "l");
+            const reducer = apiReducer("MOJO", LIST);
             const item1 = { uuid: "1" };
             const item2 = { uuid: "2" };
-            const items = new Map();
-            items.set(item1.uuid, item1);
-            items.set(item2.uuid, item2);
+            let items = new Map();
+            items = items.set(item1.uuid, item1);
+            items = items.set(item2.uuid, item2);
             expect(
                 reducer(
                     {
@@ -261,11 +270,13 @@ describe("Redux api reducer", () => {
                         loading: true,
                         error: true,
                         errors: {},
-                        errorCode: "oops",
                     },
                     {
                         type: "MOJO_LIST_SUCCESS",
-                        payload: [item2, item1],
+                        payload: {
+                            data: [item2, item1],
+                            statusCode: 200,
+                        },
                     }
                 )
             ).toEqual({
@@ -273,12 +284,12 @@ describe("Redux api reducer", () => {
                 loading: false,
                 items,
                 error: false,
-                errorCode: 0,
                 status: "list_success",
+                statusCode: 200,
             });
         });
         it("should LIST_ERROR", () => {
-            const reducer = apiReducer("MOJO", "l");
+            const reducer = apiReducer("MOJO", LIST);
             expect(
                 reducer(
                     {
@@ -288,8 +299,8 @@ describe("Redux api reducer", () => {
                     {
                         type: "MOJO_LIST_FAILURE",
                         payload: {
-                            errorCode: "oops",
-                            errors: "Couldn't list.",
+                            data: "Couldn't list.",
+                            statusCode: 400,
                         },
                     }
                 )
@@ -298,15 +309,15 @@ describe("Redux api reducer", () => {
                 loading: false,
                 status: "list_failure",
                 error: true,
-                errorCode: "oops",
                 errors: "Couldn't list.",
+                statusCode: 400,
             });
         });
     });
 
     describe("Post", () => {
         it("should POST_REQUEST", () => {
-            const reducer = apiReducer("MOJO", "p");
+            const reducer = apiReducer("MOJO", POST);
             expect(
                 reducer(defaultState, {
                     type: "MOJO_POST_REQUEST",
@@ -321,7 +332,7 @@ describe("Redux api reducer", () => {
         });
 
         it("should POST_SUCCESS", () => {
-            const reducer = apiReducer("MOJO", "p");
+            const reducer = apiReducer("MOJO", POST);
             expect(
                 reducer(
                     {
@@ -329,11 +340,13 @@ describe("Redux api reducer", () => {
                         loading: true,
                         error: true,
                         errors: {},
-                        errorCode: "oops",
                     },
                     {
                         type: "MOJO_POST_SUCCESS",
-                        payload: "item",
+                        payload: {
+                            data: "item",
+                            statusCode: 200,
+                        },
                     }
                 )
             ).toEqual({
@@ -341,13 +354,13 @@ describe("Redux api reducer", () => {
                 loading: false,
                 item: "item",
                 error: false,
-                errorCode: 0,
                 status: "post_success",
+                statusCode: 200,
             });
         });
 
         it("should POST_ERROR", () => {
-            const reducer = apiReducer("MOJO", "p");
+            const reducer = apiReducer("MOJO", POST);
             expect(
                 reducer(
                     {
@@ -357,8 +370,8 @@ describe("Redux api reducer", () => {
                     {
                         type: "MOJO_POST_FAILURE",
                         payload: {
-                            errorCode: "oops",
-                            errors: "Couldn't list.",
+                            data: "Couldn't post.",
+                            statusCode: 400,
                         },
                     }
                 )
@@ -367,15 +380,15 @@ describe("Redux api reducer", () => {
                 loading: false,
                 status: "post_failure",
                 error: true,
-                errorCode: "oops",
-                errors: "Couldn't list.",
+                errors: "Couldn't post.",
+                statusCode: 400,
             });
         });
     });
 
     describe("Delete", () => {
         it("should DELETE_REQUEST", () => {
-            const reducer = apiReducer("MOJO", "d");
+            const reducer = apiReducer("MOJO", DELETE);
             expect(
                 reducer(defaultState, {
                     type: "MOJO_DELETE_REQUEST",
@@ -390,7 +403,7 @@ describe("Redux api reducer", () => {
         });
 
         it("should DELETE_SUCCESS", () => {
-            const reducer = apiReducer("MOJO", "d");
+            const reducer = apiReducer("MOJO", DELETE);
             expect(
                 reducer(
                     {
@@ -398,23 +411,26 @@ describe("Redux api reducer", () => {
                         loading: true,
                         error: true,
                         errors: {},
-                        errorCode: "oops",
                     },
                     {
                         type: "MOJO_DELETE_SUCCESS",
+                        payload: {
+                            data: null,
+                            statusCode: 204,
+                        },
                     }
                 )
             ).toEqual({
                 ...defaultState,
                 loading: false,
                 error: false,
-                errorCode: 0,
                 status: "delete_success",
+                statusCode: 204,
             });
         });
 
         it("should DELETE_ERROR", () => {
-            const reducer = apiReducer("MOJO", "d");
+            const reducer = apiReducer("MOJO", DELETE);
             expect(
                 reducer(
                     {
@@ -424,8 +440,8 @@ describe("Redux api reducer", () => {
                     {
                         type: "MOJO_DELETE_FAILURE",
                         payload: {
-                            errorCode: "oops",
-                            errors: "Couldn't list.",
+                            data: "Couldn't delete.",
+                            statusCode: 400,
                         },
                     }
                 )
@@ -434,11 +450,13 @@ describe("Redux api reducer", () => {
                 loading: false,
                 status: "delete_failure",
                 error: true,
-                errorCode: "oops",
-                errors: "Couldn't list.",
+                errors: "Couldn't delete.",
+                statusCode: 400,
             });
         });
+    });
 
+    describe("Basic actions", () => {
         it("should SET_ITEM", () => {
             const reducer = apiReducer("MOJO");
             expect(
@@ -464,6 +482,24 @@ describe("Redux api reducer", () => {
             ).toEqual({
                 ...defaultState,
                 item: {},
+            });
+        });
+
+        it("should CLEAR_ERRORS", () => {
+            const reducer = apiReducer("MOJO");
+            expect(
+                reducer(
+                    {
+                        ...defaultState,
+                        loading: true,
+                        error: true,
+                        errors: "errors",
+                    },
+                    { type: "MOJO_CLEAR_ERRORS" }
+                )
+            ).toEqual({
+                ...defaultState,
+                loading: false,
             });
         });
     });

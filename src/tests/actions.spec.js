@@ -1,241 +1,254 @@
 /* eslint-env jest */
-import { apiActionTypes, basicActionTypes } from "../actions";
+import { apiActions, assignCrudMethod } from "../actions";
+import { CREATE, READ, UPDATE, DELETE, LIST, POST } from "../utils";
 
 describe("Redux api actions", () => {
     describe("getGroup", () => {
         it("should create CREATE resource group", () => {
-            const mojoActions = apiActionTypes("MOJO", "c");
+            const mojoActions = apiActions("MOJO", CREATE);
             expect(mojoActions.CREATE_REQUEST).toEqual("MOJO_CREATE_REQUEST");
-            expect(mojoActions.createRequest("request")).toEqual({
+            expect(mojoActions.createRequest("data")).toEqual({
                 type: mojoActions.CREATE_REQUEST,
-                payload: "request",
+                payload: "data",
             });
             expect(mojoActions.CREATE_SUCCESS).toEqual("MOJO_CREATE_SUCCESS");
-            expect(mojoActions.createSuccess("success")).toEqual({
+            expect(mojoActions.createSuccess(200, "success")).toEqual({
                 type: mojoActions.CREATE_SUCCESS,
-                payload: "success",
+                payload: { data: "success", statusCode: 200 },
             });
             expect(mojoActions.CREATE_FAILURE).toEqual("MOJO_CREATE_FAILURE");
-            expect(mojoActions.createFailure("failure", "oops")).toEqual({
+            expect(mojoActions.createFailure(400, "error")).toEqual({
                 type: mojoActions.CREATE_FAILURE,
-                payload: {
-                    errorCode: "failure",
-                    errors: "oops",
-                },
+                payload: { data: "error", statusCode: 400 },
             });
         });
 
         it("should NOT create CREATE resource group", () => {
-            const mojoActions = apiActionTypes("MOJO", "rudlp");
+            const mojoActions = apiActions(
+                "MOJO",
+                READ | UPDATE | DELETE | LIST | POST
+            );
             expect(mojoActions.CREATE_REQUEST).toBe(undefined);
             expect(mojoActions.CREATE_SUCCESS).toBe(undefined);
             expect(mojoActions.CREATE_FAILURE).toBe(undefined);
         });
 
         it("should create READ resource group", () => {
-            const mojoActions = apiActionTypes("MOJO", "r");
+            const mojoActions = apiActions("MOJO", READ);
             expect(mojoActions.READ_REQUEST).toEqual("MOJO_READ_REQUEST");
-            expect(mojoActions.readRequest("request")).toEqual({
+            expect(mojoActions.readRequest("data")).toEqual({
                 type: mojoActions.READ_REQUEST,
-                payload: "request",
+                payload: "data",
             });
             expect(mojoActions.READ_SUCCESS).toEqual("MOJO_READ_SUCCESS");
-            expect(mojoActions.readSuccess("success")).toEqual({
+            expect(mojoActions.readSuccess(200, "success")).toEqual({
                 type: mojoActions.READ_SUCCESS,
-                payload: "success",
+                payload: {
+                    data: "success",
+                    statusCode: 200,
+                },
             });
             expect(mojoActions.READ_FAILURE).toEqual("MOJO_READ_FAILURE");
-            expect(
-                mojoActions.readFailure("failure", "Couldn't read.")
-            ).toEqual({
+            expect(mojoActions.readFailure(400, "error.")).toEqual({
                 type: mojoActions.READ_FAILURE,
                 payload: {
-                    errorCode: "failure",
-                    errors: "Couldn't read.",
+                    data: "error.",
+                    statusCode: 400,
                 },
             });
         });
 
         it("should NOT create READ resource group", () => {
-            const mojoActions = apiActionTypes("MOJO", "cudlp");
+            const mojoActions = apiActions(
+                "MOJO",
+                CREATE | UPDATE | DELETE | LIST | POST
+            );
             expect(mojoActions.READ_REQUEST).toBe(undefined);
             expect(mojoActions.READ_SUCCESS).toBe(undefined);
             expect(mojoActions.READ_FAILURE).toBe(undefined);
         });
 
         it("should create UPDATE resource group", () => {
-            const mojoActions = apiActionTypes("MOJO", "u");
+            const mojoActions = apiActions("MOJO", UPDATE);
             expect(mojoActions.UPDATE_REQUEST).toEqual("MOJO_UPDATE_REQUEST");
-            expect(mojoActions.updateRequest("request")).toEqual({
+            expect(mojoActions.updateRequest("data")).toEqual({
                 type: mojoActions.UPDATE_REQUEST,
-                payload: "request",
+                payload: "data",
             });
             expect(mojoActions.UPDATE_SUCCESS).toEqual("MOJO_UPDATE_SUCCESS");
-            expect(mojoActions.updateSuccess("success")).toEqual({
+            expect(mojoActions.updateSuccess(200, "success")).toEqual({
                 type: mojoActions.UPDATE_SUCCESS,
-                payload: "success",
+                payload: {
+                    data: "success",
+                    statusCode: 200,
+                },
             });
             expect(mojoActions.UPDATE_FAILURE).toEqual("MOJO_UPDATE_FAILURE");
-            expect(
-                mojoActions.updateFailure("failure", "Couldn't update.")
-            ).toEqual({
+            expect(mojoActions.updateFailure(400, "Couldn't update.")).toEqual({
                 type: mojoActions.UPDATE_FAILURE,
                 payload: {
-                    errorCode: "failure",
-                    errors: "Couldn't update.",
+                    data: "Couldn't update.",
+                    statusCode: 400,
                 },
             });
         });
 
         it("should NOT create UPDATE resource group", () => {
-            const mojoActions = apiActionTypes("MOJO", "crdlp");
+            const mojoActions = apiActions(
+                "MOJO",
+                CREATE | READ | DELETE | LIST | POST
+            );
             expect(mojoActions.UPDATE_REQUEST).toBe(undefined);
             expect(mojoActions.UPDATE_SUCCESS).toBe(undefined);
             expect(mojoActions.UPDATE_FAILURE).toBe(undefined);
         });
 
         it("should create DELETE resource group", () => {
-            const mojoActions = apiActionTypes("MOJO", "d");
+            const mojoActions = apiActions("MOJO", DELETE);
             expect(mojoActions.DELETE_REQUEST).toEqual("MOJO_DELETE_REQUEST");
             expect(mojoActions.deleteRequest("request")).toEqual({
                 type: mojoActions.DELETE_REQUEST,
                 payload: "request",
             });
             expect(mojoActions.DELETE_SUCCESS).toEqual("MOJO_DELETE_SUCCESS");
-            expect(mojoActions.deleteSuccess("success")).toEqual({
+            expect(mojoActions.deleteSuccess(204, "success")).toEqual({
                 type: mojoActions.DELETE_SUCCESS,
-                payload: "success",
+                payload: {
+                    data: "success",
+                    statusCode: 204,
+                },
             });
             expect(mojoActions.DELETE_FAILURE).toEqual("MOJO_DELETE_FAILURE");
-            expect(
-                mojoActions.deleteFailure("failure", "Couldn't delete.")
-            ).toEqual({
+            expect(mojoActions.deleteFailure(400, "Couldn't delete.")).toEqual({
                 type: mojoActions.DELETE_FAILURE,
                 payload: {
-                    errorCode: "failure",
-                    errors: "Couldn't delete.",
+                    data: "Couldn't delete.",
+                    statusCode: 400,
                 },
             });
         });
 
         it("should NOT create DELETE resource group", () => {
-            const mojoActions = apiActionTypes("MOJO", "crulp");
+            const mojoActions = apiActions(
+                "MOJO",
+                CREATE | READ | UPDATE | LIST | POST
+            );
             expect(mojoActions.DELETE_REQUEST).toBe(undefined);
             expect(mojoActions.DELETE_SUCCESS).toBe(undefined);
             expect(mojoActions.DELETE_FAILURE).toBe(undefined);
         });
 
         it("should create LIST resource group", () => {
-            const mojoActions = apiActionTypes("MOJO", "l");
+            const mojoActions = apiActions("MOJO", LIST);
             expect(mojoActions.LIST_REQUEST).toEqual("MOJO_LIST_REQUEST");
             expect(mojoActions.listRequest("request")).toEqual({
                 type: mojoActions.LIST_REQUEST,
                 payload: "request",
             });
             expect(mojoActions.LIST_SUCCESS).toEqual("MOJO_LIST_SUCCESS");
-            expect(mojoActions.listSuccess("success")).toEqual({
+            expect(mojoActions.listSuccess(200, "success")).toEqual({
                 type: mojoActions.LIST_SUCCESS,
-                payload: "success",
+                payload: {
+                    data: "success",
+                    statusCode: 200,
+                },
             });
             expect(mojoActions.LIST_FAILURE).toEqual("MOJO_LIST_FAILURE");
-            expect(
-                mojoActions.listFailure("failure", "Couldn't list.")
-            ).toEqual({
+            expect(mojoActions.listFailure(400, "Couldn't list.")).toEqual({
                 type: mojoActions.LIST_FAILURE,
                 payload: {
-                    errorCode: "failure",
-                    errors: "Couldn't list.",
+                    data: "Couldn't list.",
+                    statusCode: 400,
                 },
             });
         });
 
         it("should NOT create LIST resource group", () => {
-            const mojoActions = apiActionTypes("MOJO", "crudp");
+            const mojoActions = apiActions(
+                "MOJO",
+                CREATE | READ | UPDATE | DELETE | POST
+            );
             expect(mojoActions.LIST_REQUEST).toBe(undefined);
             expect(mojoActions.LIST_SUCCESS).toBe(undefined);
             expect(mojoActions.LIST_FAILURE).toBe(undefined);
         });
 
         it("should create POST resource group", () => {
-            const mojoActions = apiActionTypes("MOJO", "p");
+            const mojoActions = apiActions("MOJO", POST);
             expect(mojoActions.POST_REQUEST).toEqual("MOJO_POST_REQUEST");
             expect(mojoActions.postRequest("request")).toEqual({
                 type: mojoActions.POST_REQUEST,
                 payload: "request",
             });
             expect(mojoActions.POST_SUCCESS).toEqual("MOJO_POST_SUCCESS");
-            expect(mojoActions.postSuccess("success")).toEqual({
+            expect(mojoActions.postSuccess(200, "success")).toEqual({
                 type: mojoActions.POST_SUCCESS,
-                payload: "success",
+                payload: {
+                    data: "success",
+                    statusCode: 200,
+                },
             });
             expect(mojoActions.POST_FAILURE).toEqual("MOJO_POST_FAILURE");
-            expect(
-                mojoActions.postFailure("failure", "Couldn't post.")
-            ).toEqual({
+            expect(mojoActions.postFailure(400, "Couldn't post.")).toEqual({
                 type: mojoActions.POST_FAILURE,
                 payload: {
-                    errorCode: "failure",
-                    errors: "Couldn't post.",
+                    data: "Couldn't post.",
+                    statusCode: 400,
                 },
             });
         });
 
         it("should NOT create POST resource group", () => {
-            const mojoActions = apiActionTypes("MOJO", "crudl");
+            const mojoActions = apiActions(
+                "MOJO",
+                CREATE | READ | UPDATE | DELETE | LIST
+            );
             expect(mojoActions.POST_REQUEST).toBe(undefined);
             expect(mojoActions.POST_SUCCESS).toBe(undefined);
             expect(mojoActions.POST_FAILURE).toBe(undefined);
         });
     });
 
-    describe("Action types register", () => {
+    describe("Action assignCrudMethod", () => {
         it("should dispatch success", async () => {
-            const mojoActions = apiActionTypes("MOJO", "c");
+            const mojoActions = apiActions("MOJO", CREATE);
             const mockedApi = {
-                create: () =>
-                    Promise.resolve({ status: "ok", data: "created" }),
+                create: () => Promise.resolve({ status: 200, data: "created" }),
             };
             const spy = jest.fn();
-            mojoActions.register("create", mockedApi.create, "create");
+            mojoActions.create = assignCrudMethod(
+                mojoActions,
+                mockedApi.create,
+                CREATE
+            );
             await mojoActions.create()(spy);
             expect(spy).toHaveBeenCalledWith({
                 type: "MOJO_CREATE_SUCCESS",
-                payload: "created",
+                payload: { statusCode: 200, data: "created" },
             });
         });
 
         it("should dispatch error", async () => {
-            const mojoActions = apiActionTypes("MOJO", "c");
-            const errorResponse = { statusCode: "404", error: "Not found." };
+            const mojoActions = apiActions("MOJO", CREATE);
             const mockedApi = {
-                create: () => Promise.resolve(errorResponse),
+                create: () =>
+                    Promise.reject({
+                        response: { status: 404, data: "Not found." },
+                    }),
             };
             const spy = jest.fn();
-            mojoActions.register("create", mockedApi.create, "create");
+            mojoActions.create = assignCrudMethod(
+                mojoActions,
+                mockedApi.create,
+                CREATE
+            );
             await mojoActions.create()(spy);
             expect(spy).toHaveBeenCalledWith({
                 type: "MOJO_CREATE_FAILURE",
                 payload: {
-                    errors: "Not found.",
-                    errorCode: "404",
+                    data: "Not found.",
+                    statusCode: 404,
                 },
-            });
-        });
-    });
-
-    describe("basic actions", () => {
-        it("should SET_ITEM", () => {
-            const mojoActions = basicActionTypes("MOJO");
-            expect(mojoActions.setItem("toto")).toEqual({
-                type: "MOJO_SET_ITEM",
-                payload: "toto",
-            });
-        });
-
-        it("should CLEAR_ITEM", () => {
-            const mojoActions = basicActionTypes("MOJO");
-            expect(mojoActions.clearItem()).toEqual({
-                type: "MOJO_CLEAR_ITEM",
             });
         });
     });
