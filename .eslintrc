@@ -7,19 +7,21 @@
         }
     },
     "rules": {
-        "camelcase": [1],
-        "function-paren-newline": [0],
-        "object-curly-newline": [0],
         "arrow-parens": [2, "as-needed"],
-        "quotes": [2, "double"],
-        "indent": [2, 4, { "SwitchCase": 1 }],
+        "camelcase": [1],
         "comma-dangle": [2, "always-multiline"],
-        "prefer-destructuring": [0],
-        "import/prefer-default-export": [0],
-        "valid-jsdoc": [2],
-        "space-before-function-paren": [0],
+        "default-case": [0],
+        "function-paren-newline": [0],
         "implicit-arrow-linebreak": [0],
+        "import/prefer-default-export": [0],
+        "indent": [2, 4, { "SwitchCase": 1 }],
         "no-bitwise": [0],
+        "object-curly-newline": [0],
+        "operator-linebreak": [2, "after", { "overrides": { "?": "before", ":": "before", "=": "after" } } ],
+        "prefer-destructuring": [0],
+        "quotes": [2, "double"],
+        "space-before-function-paren": [0],
+        "valid-jsdoc": [2],
         "require-jsdoc": [
             2,
             {
@@ -31,7 +33,6 @@
                     "FunctionExpression": false
                 }
             }
-        ],
-        "operator-linebreak": [2, "after", { "overrides": { "?": "before", ":": "before", "=": "after" } } ]
+        ]
     }
 }

@@ -4,7 +4,8 @@
     "description": "A package for writing convention-driven reducers and actions for Redux.",
     "main": "index.js",
     "scripts": {
-        "test": "jest",
+        "lint": "eslint src/",
+        "test": "jest --coverage '--collectCoverageFrom=src/**/*.js'",
         "compile": "babel -d lib/ src/"
     },
     "repository": {
@@ -44,6 +45,11 @@
         "trailingComma": "es5"
     },
     "jest": {
+        "collectCoverage": true,
+        "collectCoverageFrom": [
+            "src/**/*.js"
+        ],
+        "coverageReporters": ["json", "html"],
         "transform": {
             "^.+\\.jsx?$": "babel-jest"
         }

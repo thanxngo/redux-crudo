@@ -1,12 +1,18 @@
-import { basicActionTypes, apiActionTypes } from "./actions";
+import { apiActions, assignCrudMethod } from "./actions";
 import { apiReducer } from "./reducers";
 import { BaseApiReducerType } from "./types";
-import { getActionsNameSpace } from "./utils";
+import { getns, CREATE, READ, UPDATE, DELETE, LIST, POST } from "./utils";
 
 export {
-    apiActionTypes,
-    apiReducer,
     BaseApiReducerType,
-    basicActionTypes,
-    getActionsNameSpace,
+    apiActions,
+    apiReducer,
+    assignCrudMethod,
+    getns,
+    CREATE,
+    READ,
+    UPDATE,
+    DELETE,
+    LIST,
+    POST,
 };

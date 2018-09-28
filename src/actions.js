@@ -8,7 +8,7 @@ import { CREATE, READ, UPDATE, DELETE, LIST, POST } from "./utils";
  *
  * @returns {string} action - Action name
  */
-function getActionName(action) {
+export function getActionName(action) {
     switch (action) {
         case CREATE:
             return "create";
@@ -23,7 +23,7 @@ function getActionName(action) {
         case POST:
             return "post";
         default:
-            throw new Error("action is invalid");
+            throw Error("action is invalid");
     }
 }
 
@@ -59,6 +59,8 @@ export function assignCrudMethod(actions, apiMethod, action) {
  *
  * @param {string} resource - Name of the resource with prefix
  * @param {string} action - One of (CREATE, READ, UPDATE, DELETE, LIST, POST)
+ *
+ * @returns {Object} actions - Actions type and methods.
  */
 function getGroup(resource, action) {
     const funcName = `${action.toLowerCase()}`;

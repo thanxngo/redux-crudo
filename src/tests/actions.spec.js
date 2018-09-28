@@ -1,9 +1,50 @@
 /* eslint-env jest */
-import { apiActions, assignCrudMethod } from "../actions";
+/* eslint prefer-promise-reject-errors: 0 */
+
+import { apiActions, assignCrudMethod, getActionName } from "../actions";
 import { CREATE, READ, UPDATE, DELETE, LIST, POST } from "../utils";
 
 describe("Redux api actions", () => {
-    describe("getGroup", () => {
+    describe("getActionName", () => {
+        it("should match the correct action name", () => {
+            expect(getActionName(CREATE)).toEqual("create");
+            expect(getActionName(READ)).toEqual("read");
+            expect(getActionName(UPDATE)).toEqual("update");
+            expect(getActionName(DELETE)).toEqual("delete");
+            expect(getActionName(LIST)).toEqual("list");
+            expect(getActionName(POST)).toEqual("post");
+            expect(() => getActionName(0)).toThrow();
+        });
+    });
+
+    describe("apiActions errors", () => {
+        it("should throw on bad parameters.", () => {
+            expect(() => apiActions(null)).toThrow();
+            expect(() => apiActions("")).toThrow();
+            expect(() => apiActions("  ")).toThrow();
+        });
+    });
+
+    describe("apiActions basic actions", () => {
+        it("should create basic actions", () => {
+            const mojoActions = apiActions("MOJO");
+            expect(mojoActions.SET_ITEM).toEqual("MOJO_SET_ITEM");
+            expect(mojoActions.CLEAR_ITEM).toEqual("MOJO_CLEAR_ITEM");
+            expect(mojoActions.CLEAR_ERRORS).toEqual("MOJO_CLEAR_ERRORS");
+            expect(mojoActions.setItem("data")).toEqual({
+                type: mojoActions.SET_ITEM,
+                payload: "data",
+            });
+            expect(mojoActions.clearItem()).toEqual({
+                type: mojoActions.CLEAR_ITEM,
+            });
+            expect(mojoActions.clearErrors()).toEqual({
+                type: mojoActions.CLEAR_ERRORS,
+            });
+        });
+    });
+
+    describe("apiActions crud actions", () => {
         it("should create CREATE resource group", () => {
             const mojoActions = apiActions("MOJO", CREATE);
             expect(mojoActions.CREATE_REQUEST).toEqual("MOJO_CREATE_REQUEST");

@@ -1,4 +1,3 @@
-import update from "immutability-helper";
 import { Map } from "immutable";
 
 import { apiActions } from "./actions";
@@ -63,9 +62,8 @@ export function apiReducer(resource, methods = 0, options = {}) {
             case actions.CLEAR_ERRORS:
                 return {
                     ...state,
-                    ...noErrorsState
+                    ...noErrorsState,
                 };
-            default:
         }
         // Create action
         if (methods & CREATE) {
@@ -95,7 +93,6 @@ export function apiReducer(resource, methods = 0, options = {}) {
                         status: "create_failure",
                         statusCode: payload.statusCode,
                     };
-                default:
             }
         }
         // Read action
@@ -125,7 +122,6 @@ export function apiReducer(resource, methods = 0, options = {}) {
                         status: "read_failure",
                         statusCode: payload.statusCode,
                     };
-                default:
             }
         }
         // Update actions
@@ -157,7 +153,6 @@ export function apiReducer(resource, methods = 0, options = {}) {
                         status: "update_failure",
                         statusCode: payload.statusCode,
                     };
-                default:
             }
         }
         // Delete actions
@@ -187,7 +182,6 @@ export function apiReducer(resource, methods = 0, options = {}) {
                         status: "delete_failure",
                         statusCode: payload.statusCode,
                     };
-                default:
             }
         }
         // List actions
@@ -219,7 +213,6 @@ export function apiReducer(resource, methods = 0, options = {}) {
                         status: "list_failure",
                         statusCode: payload.statusCode,
                     };
-                default:
             }
         }
         // Post actions
@@ -249,7 +242,6 @@ export function apiReducer(resource, methods = 0, options = {}) {
                         status: "post_failure",
                         statusCode: payload.statusCode,
                     };
-                default:
             }
         }
         return state;
