@@ -1,8 +1,6 @@
 # redux-crudo
 
-[![Build Status](https://travis-ci.org/thanxngo/redux-crudo.svg?branch=master)](https://travis-ci.org/thanxngo/redux-crudo)
-
-[![Coverage Status](https://coveralls.io/repos/github/thanxngo/redux-crudo/badge.svg?branch=master)](https://coveralls.io/github/thanxngo/redux-crudo?branch=master)
+[![Build Status](https://travis-ci.org/thanxngo/redux-crudo.svg?branch=master)](https://travis-ci.org/thanxngo/redux-crudo) [![Coverage Status](https://coveralls.io/repos/github/thanxngo/redux-crudo/badge.svg?branch=master)](https://coveralls.io/github/thanxngo/redux-crudo?branch=master)
 
 A package for writing convention-driven reducers and actions for Redux.
 
