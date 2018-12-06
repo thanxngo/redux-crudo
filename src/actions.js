@@ -85,7 +85,7 @@ function getGroup(resource, action) {
         [`${action}_FAILURE`]: `${resource}_${action}_FAILURE`,
         [`${funcName}Failure`]: (statusCode, data) => ({
             type: `${resource}_${action}_FAILURE`,
-            payload: new Error({ statusCode, data }),
+            payload: { statusCode, data },
             error: true,
         }),
     };

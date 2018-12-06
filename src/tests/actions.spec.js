@@ -62,7 +62,7 @@ describe("Redux api actions", () => {
             expect(mojoActions.CREATE_FAILURE).toEqual("MOJO_CREATE_FAILURE");
             expect(mojoActions.createFailure(400, "error")).toEqual({
                 type: mojoActions.CREATE_FAILURE,
-                payload: new Error({ data: "error", statusCode: 400 }),
+                payload: { data: "error", statusCode: 400 },
                 error: true,
             });
         });
@@ -97,10 +97,10 @@ describe("Redux api actions", () => {
             expect(mojoActions.READ_FAILURE).toEqual("MOJO_READ_FAILURE");
             expect(mojoActions.readFailure(400, "error.")).toEqual({
                 type: mojoActions.READ_FAILURE,
-                payload: new Error({
+                payload: {
                     data: "error.",
                     statusCode: 400,
-                }),
+                },
                 error: true,
             });
         });
@@ -135,10 +135,10 @@ describe("Redux api actions", () => {
             expect(mojoActions.UPDATE_FAILURE).toEqual("MOJO_UPDATE_FAILURE");
             expect(mojoActions.updateFailure(400, "Couldn't update.")).toEqual({
                 type: mojoActions.UPDATE_FAILURE,
-                payload: new Error({
+                payload: {
                     data: "Couldn't update.",
                     statusCode: 400,
-                }),
+                },
                 error: true,
             });
         });
@@ -173,10 +173,10 @@ describe("Redux api actions", () => {
             expect(mojoActions.DELETE_FAILURE).toEqual("MOJO_DELETE_FAILURE");
             expect(mojoActions.deleteFailure(400, "Couldn't delete.")).toEqual({
                 type: mojoActions.DELETE_FAILURE,
-                payload: new Error({
+                payload: {
                     data: "Couldn't delete.",
                     statusCode: 400,
-                }),
+                },
                 error: true,
             });
         });
@@ -211,10 +211,10 @@ describe("Redux api actions", () => {
             expect(mojoActions.LIST_FAILURE).toEqual("MOJO_LIST_FAILURE");
             expect(mojoActions.listFailure(400, "Couldn't list.")).toEqual({
                 type: mojoActions.LIST_FAILURE,
-                payload: new Error({
+                payload: {
                     data: "Couldn't list.",
                     statusCode: 400,
-                }),
+                },
                 error: true,
             });
         });
@@ -249,10 +249,10 @@ describe("Redux api actions", () => {
             expect(mojoActions.POST_FAILURE).toEqual("MOJO_POST_FAILURE");
             expect(mojoActions.postFailure(400, "Couldn't post.")).toEqual({
                 type: mojoActions.POST_FAILURE,
-                payload: new Error({
+                payload: {
                     data: "Couldn't post.",
                     statusCode: 400,
-                }),
+                },
                 error: true,
             });
         });
@@ -305,10 +305,10 @@ describe("Redux api actions", () => {
             await mojoActions.create()(spy);
             expect(spy).toHaveBeenCalledWith({
                 type: "MOJO_CREATE_FAILURE",
-                payload: new Error({
+                payload: {
                     data: "Not found.",
                     statusCode: 404,
-                }),
+                },
                 error: true,
             });
         });
