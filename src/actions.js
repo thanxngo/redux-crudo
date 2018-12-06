@@ -35,7 +35,7 @@ export function getActionName(action) {
  * object as parameter (payload of the action)
  * @param {number} action - One of (CREATE, READ, UPDATE, DELETE, LIST, POST)
  *
- * @returns {function} - Redux Action that dispatch a api sequence (request, success or failure).
+ * @returns {Promise} - Resolves to an action.
  */
 export function assignCrudMethod(actions, apiMethod, action) {
     // Get request, success, failure actions
@@ -47,9 +47,11 @@ export function assignCrudMethod(actions, apiMethod, action) {
         dispatch(REQUEST(args));
         try {
             const response = await apiMethod(args);
-            dispatch(SUCCESS(response.status, response.data));
+            return dispatch(SUCCESS(response.status, response.data));
         } catch (error) {
-            dispatch(FAILURE(error.response.status, error.response.data));
+            return dispatch(
+                FAILURE(error.response.status, error.response.data)
+            );
         }
     };
 }
@@ -69,6 +71,7 @@ function getGroup(resource, action) {
         [`${funcName}Request`]: payload => ({
             type: `${resource}_${action}_REQUEST`,
             payload,
+            error: false,
         }),
         [`${action}_SUCCESS`]: `${resource}_${action}_SUCCESS`,
         [`${funcName}Success`]: (statusCode, data) => ({
@@ -77,14 +80,13 @@ function getGroup(resource, action) {
                 data,
                 statusCode,
             },
+            error: false,
         }),
         [`${action}_FAILURE`]: `${resource}_${action}_FAILURE`,
         [`${funcName}Failure`]: (statusCode, data) => ({
             type: `${resource}_${action}_FAILURE`,
-            payload: {
-                data,
-                statusCode,
-            },
+            payload: new Error({ statusCode, data }),
+            error: true,
         }),
     };
 }
