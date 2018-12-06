@@ -4,6 +4,7 @@ import { apiActions } from "./actions";
 import { CREATE, READ, UPDATE, DELETE, LIST, POST } from "./utils";
 
 const noErrorsState = {
+    error: false,
     errors: {},
     loading: false,
 };
@@ -33,6 +34,7 @@ export function apiReducer(resource, methods = 0, options = {}) {
         args: {},
         item: {},
         items: new Map(),
+        error: false,
         errors: {},
         loading: false,
         status: "",
@@ -85,6 +87,7 @@ export function apiReducer(resource, methods = 0, options = {}) {
                 case actions.CREATE_FAILURE:
                     return {
                         ...state,
+                        error: true,
                         errors: payload.data,
                         loading: false,
                         status: "create_failure",
@@ -113,6 +116,7 @@ export function apiReducer(resource, methods = 0, options = {}) {
                 case actions.READ_FAILURE:
                     return {
                         ...state,
+                        error: true,
                         errors: payload.data,
                         loading: false,
                         status: "read_failure",
@@ -143,6 +147,7 @@ export function apiReducer(resource, methods = 0, options = {}) {
                 case actions.UPDATE_FAILURE:
                     return {
                         ...state,
+                        error: true,
                         errors: payload.data,
                         loading: false,
                         status: "update_failure",
@@ -171,6 +176,7 @@ export function apiReducer(resource, methods = 0, options = {}) {
                 case actions.DELETE_FAILURE:
                     return {
                         ...state,
+                        error: true,
                         errors: payload.data,
                         loading: false,
                         status: "delete_failure",
@@ -201,6 +207,7 @@ export function apiReducer(resource, methods = 0, options = {}) {
                 case actions.LIST_FAILURE:
                     return {
                         ...state,
+                        error: true,
                         errors: payload.data,
                         loading: false,
                         status: "list_failure",
@@ -229,6 +236,7 @@ export function apiReducer(resource, methods = 0, options = {}) {
                 case actions.POST_FAILURE:
                     return {
                         ...state,
+                        error: true,
                         errors: payload.data,
                         loading: false,
                         status: "post_failure",

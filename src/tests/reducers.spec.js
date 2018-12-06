@@ -8,6 +8,7 @@ const defaultState = {
     args: {},
     item: {},
     items: new Map(),
+    error: false,
     errors: {},
     loading: true,
     status: "create_request",
@@ -22,6 +23,7 @@ describe("Redux api reducer", () => {
                 args: {},
                 item: {},
                 items: new Map(),
+                error: false,
                 errors: {},
                 loading: false,
                 status: "",
@@ -107,6 +109,7 @@ describe("Redux api reducer", () => {
                 ...defaultState,
                 loading: false,
                 status: "create_failure",
+                error: true,
                 errors: "Couldn't create.",
                 statusCode: 400,
             });
@@ -150,6 +153,7 @@ describe("Redux api reducer", () => {
                 reducer(
                     {
                         ...defaultState,
+                        error: true,
                         errors: "oops",
                         loading: true,
                         item: "toto",
@@ -167,6 +171,7 @@ describe("Redux api reducer", () => {
                 item: "item",
                 loading: false,
                 status: "read_success",
+                error: false,
                 errors: {},
                 statusCode: 200,
             });
@@ -192,6 +197,7 @@ describe("Redux api reducer", () => {
                 ...defaultState,
                 loading: false,
                 status: "read_failure",
+                error: true,
                 errors: "Couldn't read.",
                 statusCode: 400,
             });
@@ -244,6 +250,7 @@ describe("Redux api reducer", () => {
                     {
                         ...defaultState,
                         loading: true,
+                        error: true,
                         errors: {},
                     },
                     {
@@ -258,6 +265,7 @@ describe("Redux api reducer", () => {
                 ...defaultState,
                 loading: false,
                 item: "item",
+                error: false,
                 status: "update_success",
                 statusCode: 200,
             });
@@ -283,6 +291,7 @@ describe("Redux api reducer", () => {
                 ...defaultState,
                 loading: false,
                 status: "update_failure",
+                error: true,
                 errors: "Couldn't update.",
                 statusCode: 400,
             });
@@ -327,6 +336,7 @@ describe("Redux api reducer", () => {
                     {
                         ...defaultState,
                         loading: true,
+                        error: true,
                         errors: {},
                     },
                     {
@@ -340,6 +350,7 @@ describe("Redux api reducer", () => {
             ).toEqual({
                 ...defaultState,
                 loading: false,
+                error: false,
                 status: "delete_success",
                 statusCode: 204,
             });
@@ -365,6 +376,7 @@ describe("Redux api reducer", () => {
                 ...defaultState,
                 loading: false,
                 status: "delete_failure",
+                error: true,
                 errors: "Couldn't delete.",
                 statusCode: 400,
             });
@@ -414,6 +426,7 @@ describe("Redux api reducer", () => {
                     {
                         ...defaultState,
                         loading: true,
+                        error: true,
                         errors: {},
                     },
                     {
@@ -428,6 +441,7 @@ describe("Redux api reducer", () => {
                 ...defaultState,
                 loading: false,
                 items,
+                error: false,
                 status: "list_success",
                 statusCode: 200,
             });
@@ -450,6 +464,7 @@ describe("Redux api reducer", () => {
                     {
                         ...defaultState,
                         loading: true,
+                        error: true,
                         errors: {},
                     },
                     {
@@ -464,6 +479,7 @@ describe("Redux api reducer", () => {
                 ...defaultState,
                 loading: false,
                 items,
+                error: false,
                 status: "list_success",
                 statusCode: 200,
             });
@@ -489,6 +505,7 @@ describe("Redux api reducer", () => {
                 ...defaultState,
                 loading: false,
                 status: "list_failure",
+                error: true,
                 errors: "Couldn't list.",
                 statusCode: 400,
             });
@@ -533,6 +550,7 @@ describe("Redux api reducer", () => {
                     {
                         ...defaultState,
                         loading: true,
+                        error: true,
                         errors: {},
                     },
                     {
@@ -547,6 +565,7 @@ describe("Redux api reducer", () => {
                 ...defaultState,
                 loading: false,
                 item: "item",
+                error: false,
                 status: "post_success",
                 statusCode: 200,
             });
@@ -559,6 +578,7 @@ describe("Redux api reducer", () => {
                     {
                         ...defaultState,
                         loading: true,
+                        error: true,
                         errors: {},
                     },
                     {
@@ -572,6 +592,7 @@ describe("Redux api reducer", () => {
                 ...defaultState,
                 loading: false,
                 item: {},
+                error: false,
                 status: "post_success",
                 statusCode: 200,
             });
@@ -597,6 +618,7 @@ describe("Redux api reducer", () => {
                 ...defaultState,
                 loading: false,
                 status: "post_failure",
+                error: true,
                 errors: "Couldn't post.",
                 statusCode: 400,
             });
@@ -639,6 +661,7 @@ describe("Redux api reducer", () => {
                     {
                         ...defaultState,
                         loading: true,
+                        error: true,
                         errors: "errors",
                     },
                     { type: "MOJO_CLEAR_ERRORS" }
