@@ -1,6 +1,6 @@
 {
     "name": "@thanxngo/redux-crudo",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "description": "A package for writing convention-driven reducers and actions for Redux.",
     "main": "index.js",
     "scripts": {

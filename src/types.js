@@ -6,7 +6,7 @@ const BaseApiReducerType = T.shape({
     item: T.object.isRequired,
     items: T.object.isRequired,
     error: T.bool.isRequired,
-    errorCode: T.number.isRequired,
+    statusCode: T.number.isRequired,
     errors: T.object.isRequired,
     loading: T.bool.isRequired,
     status: T.string,
