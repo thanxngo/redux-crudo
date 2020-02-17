@@ -28,7 +28,7 @@
         "babel-plugin-root-import": "6.4.1",
         "babel-plugin-transform-object-rest-spread": "6.26.0",
         "babel-preset-env": "1.7.0",
-        "coveralls": "3.0.2",
+        "coveralls": "3.0.9",
         "eslint": "5.6.0",
         "eslint-config-airbnb": "17.1.0",
         "eslint-plugin-import": "2.14.0",
