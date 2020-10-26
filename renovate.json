@@ -3,7 +3,13 @@
     "packageRules": [
         {
             "updateTypes": ["minor", "patch", "pin", "digest"],
-            "automerge": true
+            "automerge": true,
+            "requiredStatusChecks": null
+        },
+        {
+            "depTypeList": ["devDependencies"],
+            "automerge": true,
+            "requiredStatusChecks": null
         }
     ]
 }
