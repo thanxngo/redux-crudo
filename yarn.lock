@@ -2436,10 +2436,10 @@ eslint-plugin-import@2.25.3:
     resolve "^1.20.0"
     tsconfig-paths "^3.11.0"
 
-eslint-plugin-jsx-a11y@6.5.0:
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jsx-a11y/-/eslint-plugin-jsx-a11y-6.5.0.tgz#291680831cef60acbce51ab81e66dbca0b2ab3d4"
-  integrity sha512-4luUql2LFmDENUGzLx7ra+2CiOq6SWaQ3Dxr3wO0qEeoAIC5P2Xrc08BdINRJkHOAfwIjzP4eI9+wrZy703Oug==
+eslint-plugin-jsx-a11y@6.5.1:
+  version "6.5.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsx-a11y/-/eslint-plugin-jsx-a11y-6.5.1.tgz#cdbf2df901040ca140b6ec14715c988889c2a6d8"
+  integrity sha512-sVCFKX9fllURnXT2JwLN5Qgo24Ug5NF6dxhkmxsMEUZhXRcGg+X3e1JbJ84YePQKBl5E0ZjAH5Q4rkdcGY99+g==
   dependencies:
     "@babel/runtime" "^7.16.3"
     aria-query "^4.2.2"
