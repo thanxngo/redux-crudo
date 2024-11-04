@@ -3812,9 +3812,10 @@ immutability-helper@^3.0.1:
   resolved "https://registry.yarnpkg.com/immutability-helper/-/immutability-helper-3.1.1.tgz#2b86b2286ed3b1241c9e23b7b21e0444f52f77b7"
   integrity sha512-Q0QaXjPjwIju/28TsugCHNEASwoCcJSyJV3uO1sOIQGI0jKgm9f41Lvz0DZj3n46cNCyAZTsEYoY4C2bVRUzyQ==
 
-immutable@^3.8.2:
-  version "3.8.2"
-  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
+immutable@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-5.0.0.tgz#33d76138ae6e007328842fa7483f1070ba0abc24"
+  integrity sha512-6ooCHBvtm9B06fFLW2p0VjKVryK20YgWN04Pju2Tq/L6UP4K/vMj4AzsJs9WQy1wiN80oXl3hSS8unYjqA7vOQ==
 
 import-fresh@^3.2.1:
   version "3.2.1"
