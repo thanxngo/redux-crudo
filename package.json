@@ -23,7 +23,7 @@
         "babel": "6.23.0",
         "babel-cli": "6.26.0",
         "babel-core": "6.26.3",
-        "@babel/eslint-parser": "7.25.9",
+        "@babel/eslint-parser": "7.26.5",
         "babel-jest": "29.7.0",
         "babel-plugin-root-import": "6.6.0",
         "babel-plugin-transform-object-rest-spread": "6.26.0",
