@@ -89,14 +89,14 @@
     json5 "^2.2.3"
     semver "^6.3.1"
 
-"@babel/eslint-parser@8.0.1":
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/@babel/eslint-parser/-/eslint-parser-8.0.1.tgz#34a56c88deb4cf1340257296d1309028fadbb953"
-  integrity sha512-2javO8pAQv/ld6sS6OcxoLAlzZEZy+xm99bnoAfMhzKSumKhdF5wylpbZB7XTorWr3KLPtx5K95eduJPOy1mzA==
+"@babel/eslint-parser@8.0.5":
+  version "8.0.5"
+  resolved "https://registry.yarnpkg.com/@babel/eslint-parser/-/eslint-parser-8.0.5.tgz#f4316f551389b67bb3f383c731a8f10724694503"
+  integrity sha512-q4c+FpoJ/FKeiLnZ9Os3vWnSlZw3dBmlTUx6vuITRqbd8yn4hgUB0/OOJ+gi5lt+mOx/0IW2rXINR98JJllfag==
   dependencies:
     eslint-scope "^9.1.0"
     eslint-visitor-keys "^5.0.0"
-    semver "^7.7.3"
+    verkit "^0.3.2"
 
 "@babel/generator@^7.16.7":
   version "7.16.7"
@@ -6975,11 +6975,6 @@ semver@^7.7.2:
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.7.2.tgz#67d99fdcd35cec21e6f8b87a7fd515a33f982b58"
   integrity sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==
 
-semver@^7.7.3:
-  version "7.8.4"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-7.8.4.tgz#c73eceebae0616934be8dff28a7fd70757c8e696"
-  integrity sha512-rUCObTnP32Q08R2uuIrt7r9PlEonuTmtuXYcW6s5kjdlj3xbnwe+21yXptAUYcMAABLkYYTtnmzb3w3EDZfueA==
-
 set-blocking@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
@@ -7947,6 +7942,11 @@ v8flags@^2.1.1:
   resolved "https://registry.yarnpkg.com/v8flags/-/v8flags-2.1.1.tgz#aab1a1fa30d45f88dd321148875ac02c0b55e5b4"
   dependencies:
     user-home "^1.1.1"
+
+verkit@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/verkit/-/verkit-0.3.2.tgz#0511ea63310551b62a20c010aa820350c5c350c6"
+  integrity sha512-zj/ob3UsvJGN0whEAKFp53REA5X66hvffVqoCtVQAakJKnKlH+/PcOfMoFwIG/o4rElqLv/ycAFlx8ZlXUorCg==
 
 verror@1.10.0:
   version "1.10.0"
