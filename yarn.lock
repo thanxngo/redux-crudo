@@ -89,10 +89,10 @@
     json5 "^2.2.3"
     semver "^6.3.1"
 
-"@babel/eslint-parser@8.0.7":
-  version "8.0.7"
-  resolved "https://registry.yarnpkg.com/@babel/eslint-parser/-/eslint-parser-8.0.7.tgz#ae5b9f9bf09dae608fd6e696a6a7018c4a74650d"
-  integrity sha512-ik5I+U64QuQQPohw0A1wVWPR+vTRYVfWBDLOLc1KwZQ2SKayQLD52DgoB3W/kmwc4MP1E37qh7nZuDD9xsKYcA==
+"@babel/eslint-parser@8.1.2":
+  version "8.1.2"
+  resolved "https://registry.yarnpkg.com/@babel/eslint-parser/-/eslint-parser-8.1.2.tgz#d4ceb3b89c8d3d3636682777719820155794cd9c"
+  integrity sha512-oyB1a5JmJz/Hrw7Qy6c47uAemiD3irqyVyPwGsdzdw7XpdCtKCkmEJqtHnqRSrxiptVJoccrAxU+iDMs9zgeIg==
   dependencies:
     eslint-scope "^9.1.0"
     eslint-visitor-keys "^5.0.0"
